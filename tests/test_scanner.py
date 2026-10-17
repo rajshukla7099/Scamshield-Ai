@@ -1,6 +1,6 @@
 """
 ScamShield AI - Detection Engine Unit Tests
-Built for HYPNEXIS ’26 at Manipal University Jaipur
+Next-Generation Cyber Threat Defense & Intelligence Platform
 """
 
 import unittest

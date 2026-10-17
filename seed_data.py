@@ -268,4 +268,4 @@ def seed_database():
 
 if __name__ == "__main__":
     seed_database()
-    print("Database successfully initialized and seeded with realistic hackathon datasets!")
+    print("Database successfully initialized and seeded with realistic threat intelligence datasets!")

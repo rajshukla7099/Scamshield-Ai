@@ -1,6 +1,6 @@
 """
 ScamShield AI - Heuristic Detection Engine
-Built for HYPNEXIS ’26 at Manipal University Jaipur
+Next-Generation Cyber Threat Defense & Intelligence Platform
 
 Features:
 - Lexical, structural, and reputation inspection for URLs

@@ -1,6 +1,6 @@
 """
 ScamShield AI - Database Package
-Built for HYPNEXIS ’26 at Manipal University Jaipur
+Next-Generation Cyber Threat Defense & Intelligence Platform
 """
 
 from database.db import (

@@ -154,7 +154,7 @@ def api_scan():
 
 @app.route("/api/samples", methods=["GET"])
 def api_samples():
-    """Returns curated demo samples for instant hackathon demonstration."""
+    """Returns curated demo samples for instant threat testing."""
     return jsonify({"success": True, "samples": SAMPLE_TEST_CASES})
 
 @app.route("/api/scan/url", methods=["POST"])

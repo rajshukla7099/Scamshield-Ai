@@ -1,12 +1,12 @@
 # 🛡️ ScamShield AI — Intelligent Cyber Scam Detection & Digital Safety Platform
 
-> **A professional, offline-first cybersecurity web application built for HYPNEXIS ’26 at Manipal University Jaipur.**  
+> **A professional, offline-first cybersecurity web application and threat intelligence platform.**  
 > Analyzes suspicious URLs, SMS, WhatsApp messages, fake job offers, phishing campaigns, APK scams, and UPI reverse-payment traps to protect students, senior citizens, online shoppers, and digital payment users across India.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0%2B-green.svg)](https://flask.palletsprojects.com/)
 [![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey.svg)](https://www.sqlite.org/)
-[![Hackathon](https://img.shields.io/badge/Hackathon-HYPNEXIS%20’26%20MUJ-cyan.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-Cyber%20Defense-cyan.svg)]()
 [![Status](https://img.shields.io/badge/Build-46%2F46%20Tests%20Passing-brightgreen.svg)]()
 
 ---
@@ -64,7 +64,7 @@ StudySaathiAI/ (ScamShield AI)
 │   ├── history.html           # Scan audit history with search, filter, and CSV/JSON export
 │   ├── reports.html           # Community Scam Radar with deduplication & upvoting
 │   ├── learn.html             # Safety Education & 6 Scam Vectors Encyclopedia + Quizzes
-│   ├── about.html             # Project mission for HYPNEXIS ’26, architecture & ethics
+│   ├── about.html             # Project mission, architecture & ethics
 │   ├── 404.html               # 404 error page
 │   └── 500.html               # 500 error page
 │
@@ -207,22 +207,19 @@ Open your preferred browser (Chrome, Edge, Firefox) and navigate to:
 
 ---
 
-## 8. Hackathon 2-Minute Presentation Pitch Script
+## 8. Platform Architecture & Live Demonstration Walkthrough
 
-> **Judge Hook (0:00 - 0:25):**  
-> *"Judges, in the last 24 hours alone, thousands of Indian citizens received this message on WhatsApp: 'Dear Consumer, Aapka bijli connection aaj raat 9:30 baje kat diya jayega. Call officer Rahul 9876543210.' Panic strikes, they call the number, download an APK, and lose their life savings. Traditional English antivirus filters completely miss this. We built ScamShield AI for HYPNEXIS ’26 to solve this crisis."*
+> **The Problem:**  
+> In the last 24 hours alone, thousands of Indian citizens received messages on WhatsApp: *"Dear Consumer, Aapka bijli connection aaj raat 9:30 baje kat diya jayega. Call officer 9876543210."* Panic strikes, victims call the number, download an APK, and lose their savings. Traditional English antivirus filters miss colloquial threats. ScamShield AI is engineered to solve this crisis.
 
-> **Live Demo 1: URL Scanner (0:25 - 0:55):**  
-> *"Let's test this URL: `http://sbi-kyc-verification-portal.xyz/login`. Within 50 milliseconds, ScamShield AI decomposes the URL. Notice: Zero unsafe remote requests or SSRF risk. It detects: (1) Unencrypted HTTP, (2) High-risk disposable `.xyz` TLD, and (3) Spoofed State Bank of India brand using Levenshtein distance. Result: 94/100 High Risk with clear safety steps."*
+> **1. URL Scanner Inspection:**  
+> When testing suspicious links like `http://sbi-kyc-verification-portal.xyz/login`, ScamShield AI decomposes the URL in milliseconds without unsafe remote requests or SSRF risk. It detects: (1) Unencrypted HTTP, (2) High-risk disposable `.xyz` TLD, and (3) Spoofed State Bank of India brand via Levenshtein distance.
 
-> **Live Demo 2: Message Analyzer (0:55 - 1:25):**  
-> *"Now let's test the electricity scam SMS in Hinglish. ScamShield AI's multilingual NLP identifies the coercion, highlights the exact threatening text span in red, detects the individual 10-digit mobile number, and reminds the user: 'Electricity boards never authorize disconnections via personal WhatsApp messages.' And if an SMS says 'Never share your OTP', our engine recognizes it as defensive advice and doesn't falsely flag it."*
+> **2. Message & Hinglish NLP Analysis:**  
+> When analyzing Hinglish SMS, ScamShield AI's multilingual NLP identifies coercive urgency, highlights the exact threatening text spans, flags individual 10-digit mobile numbers, and warns users. Moreover, defensive security notices (*"Never share your OTP"*) are recognized as legitimate advice and not falsely flagged.
 
-> **Community Impact & Incident Response (1:25 - 1:50):**  
-> *"Our platform features a live Community Radar with SHA-256 deduplication, a Scam Academy quiz that trains users through real-world scenarios, and direct integration with India's National Cyber Helpline **1930** and **cybercrime.gov.in**."*
-
-> **Closing (1:50 - 2:00):**  
-> *"ScamShield AI is lightweight, 100% offline-ready, privacy-first, and requires zero paid APIs. Thank you!"*
+> **3. Incident Response & Golden Hour Protocols:**  
+> Provides direct incident response checklists and integration with India's National Cyber Helpline **1930** and **cybercrime.gov.in**.
 
 ---
 
@@ -238,5 +235,5 @@ Open your preferred browser (Chrome, Edge, Firefox) and navigate to:
 
 ## 10. Contributors & License
 
-Developed with ❤️ for **HYPNEXIS ’26 at Manipal University Jaipur**.  
+Developed with ❤️ for the **Digital Bharat Cyber Safety Initiative**.  
 Licensed under the **MIT License**.

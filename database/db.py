@@ -1,6 +1,6 @@
 """
 ScamShield AI - SQLite Persistence Layer
-Built for HYPNEXIS ’26 at Manipal University Jaipur
+Next-Generation Cyber Threat Defense & Intelligence Platform
 
 Features:
 - Parameterized SQLite queries preventing SQL injection
