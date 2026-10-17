@@ -264,7 +264,8 @@ def get_dashboard_stats() -> dict:
         "total_reports": total_reports,
         "risk_distribution": risk_dist,
         "type_distribution": type_dist,
-        "top_categories": top_categories
+        "top_categories": top_categories,
+        "recent_scans": get_recent_scans(limit=10)
     }
 
 def insert_report(report_type: str, target_content: str, category: str, description: str, risk_assessment: str) -> dict:
