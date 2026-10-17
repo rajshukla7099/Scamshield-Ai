@@ -6,6 +6,8 @@ import unittest
 from detection.deepfake import DeepfakeDetector
 from detection.threat_radar import ThreatRadar
 from detection.incident_dossier import IncidentDossierGenerator
+from detection.news_service import CyberNewsService
+from detection.chatbot_engine import ShieldBotEngine
 from app import app
 
 class TestDeepfakeDetector(unittest.TestCase):
@@ -117,5 +119,58 @@ class TestAppRoutes(unittest.TestCase):
         data = res.get_json()
         self.assertTrue(data["success"])
 
+    def test_news_page(self):
+        res = self.client.get("/news")
+        self.assertEqual(res.status_code, 200)
+        self.assertIn(b"Cyber Attack Intelligence", res.data)
+
+    def test_news_api(self):
+        res = self.client.get("/api/news?category=banking")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertTrue(data["success"])
+        self.assertGreater(len(data["news"]), 0)
+
+    def test_chat_api(self):
+        res = self.client.post("/api/chat", json={"message": "Mere paise cut gaye kya karu"})
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertTrue(data["success"])
+        self.assertIn("1930", data["response"]["reply"])
+
+class TestCyberNewsService(unittest.TestCase):
+    def test_get_all_news(self):
+        items = CyberNewsService.get_news("all")
+        self.assertGreaterEqual(len(items), 5)
+        for item in items:
+            self.assertIn("title", item)
+            self.assertIn("summary", item)
+            self.assertIn("severity", item)
+
+    def test_filter_category(self):
+        items = CyberNewsService.get_news("Ransomware")
+        self.assertTrue(all(item["category"] == "Ransomware" for item in items))
+        self.assertGreaterEqual(len(items), 1)
+
+class TestShieldBotEngine(unittest.TestCase):
+    def test_financial_fraud_response(self):
+        res = ShieldBotEngine.get_response("Account se 50000 rupees debit ho gaye fraud me")
+        self.assertIn("1930", res["reply"])
+        self.assertIn("Golden Hour", res["reply"])
+
+    def test_digital_arrest_response(self):
+        res = ShieldBotEngine.get_response("CBI police video call digital arrest warrant bol rhe hai")
+        self.assertIn("FAKE", res["reply"])
+        self.assertIn("Digital Arrest", res["title"])
+
+    def test_upi_trap_response(self):
+        res = ShieldBotEngine.get_response("OLX buyer bol rha hai QR code scan karke PIN daalo to paise aayenge")
+        self.assertIn("PIN", res["reply"])
+
+    def test_default_greeting(self):
+        res = ShieldBotEngine.get_response("hello there")
+        self.assertIn("ShieldBot AI", res["title"])
+
 if __name__ == "__main__":
     unittest.main()
+

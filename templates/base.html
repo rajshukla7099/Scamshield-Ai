@@ -13,8 +13,15 @@
   {% block head %}{% endblock %}
 </head>
 <body>
-  <!-- 3D Interactive Cyber Background Canvas -->
-  <canvas id="cyber3dCanvas" class="cyber-3d-bg"></canvas>
+  <!-- Live Wallpaper Background (Pinterest Video) & 3D WebGL Canvas -->
+  <div class="cyber-live-wallpaper-container">
+    <video id="cyberBgVideo" class="cyber-bg-video" autoplay loop muted playsinline poster="{{ url_for('static', filename='images/cyber_bg_thumb.jpg') }}">
+      <source src="{{ url_for('static', filename='videos/cyber_bg.mp4') }}" type="video/mp4">
+      <source src="https://v1.pinimg.com/videos/mc/720p/8c/8d/e5/8c8de568e56d0242e8f642c9255cd4a3.mp4" type="video/mp4">
+    </video>
+    <div class="cyber-wallpaper-overlay"></div>
+    <canvas id="cyber3dCanvas" class="cyber-3d-bg"></canvas>
+  </div>
   <div class="app-container">
     <!-- Sidebar Navigation -->
     <aside class="app-sidebar" id="appSidebar">
@@ -66,7 +73,12 @@
           <span>Scan History</span>
         </a>
 
-        <div class="nav-section-title">Education & Info</div>
+        <div class="nav-section-title">Education & Threat Intel</div>
+        <a href="{{ url_for('news') }}" class="nav-item {% if request.path == '/news' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg>
+          <span>Cyber Attack News</span>
+          <span style="background: var(--risk-high); color: #fff; font-size: 0.6rem; padding: 1px 5px; border-radius: 9999px; font-weight: 800; margin-left: auto;">LIVE</span>
+        </a>
         <a href="{{ url_for('learn') }}" class="nav-item {% if request.path == '/learn' %}active{% endif %}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           <span>Scam Academy</span>
@@ -182,6 +194,49 @@
 
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ShieldBot AI 24/7 Cyber Defense Assistant -->
+  <button class="shield-chat-trigger" id="shieldChatTrigger" onclick="toggleShieldChat()" title="Talk with ShieldBot AI Cyber Assistant">
+    <span class="chat-bot-icon" style="width: 24px; height: 24px; font-size: 0.85rem;">🤖</span>
+    <span>ShieldBot AI</span>
+    <span class="pulse-dot" style="background: var(--accent-green); width: 6px; height: 6px;"></span>
+  </button>
+
+  <div class="shield-chat-window" id="shieldChatWindow">
+    <div class="chat-header">
+      <div class="chat-header-title">
+        <div class="chat-bot-icon">🤖</div>
+        <div>
+          <div style="font-weight: 800; font-size: 0.95rem; color: #fff; font-family: var(--font-display);">ShieldBot AI</div>
+          <div style="font-size: 0.7rem; color: var(--accent-green); display: flex; align-items: center; gap: 4px;">
+            <span class="pulse-dot" style="width: 5px; height: 5px; background: var(--accent-green);"></span>
+            Active Incident & Fraud Response
+          </div>
+        </div>
+      </div>
+      <button onclick="toggleShieldChat()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.25rem;">✕</button>
+    </div>
+
+    <div class="chat-messages-container" id="chatMessages">
+      <div class="chat-msg bot">
+        <strong>Namaste! Main ShieldBot AI hoon</strong> — aapka 24/7 Digital Safety Assistant.<br><br>
+        Agar aapke saath koi scam hua hai, suspicious call/SMS aayi hai, ya legal FIR karni hai, to mujhse puchein!
+        <div class="chat-quick-actions">
+          <button class="chat-action-btn" onclick="sendQuickChat('Mere paise cut gaye kya karu?')">🚨 Paise cut gaye?</button>
+          <button class="chat-action-btn" onclick="sendQuickChat('CBI police video call digital arrest scam')">⚖️ CBI Digital Arrest</button>
+          <button class="chat-action-btn" onclick="sendQuickChat('UPI QR scan karke paise lene ka scam')">📲 UPI QR Trap</button>
+          <button class="chat-action-btn" onclick="sendQuickChat('Bijli bill cut hone ka message aaya')">⚡ Bijli Bill Message</button>
+        </div>
+      </div>
+    </div>
+
+    <form class="chat-input-bar" onsubmit="handleSendChat(event)">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Type scam issue or paste text..." autocomplete="off">
+      <button type="submit" class="chat-send-btn" title="Send Message">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </div>
 
   <script src="{{ url_for('static', filename='js/cyber3d.js') }}"></script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>

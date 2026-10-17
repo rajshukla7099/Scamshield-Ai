@@ -13,6 +13,8 @@ from detection.scanner import URLScanner, MessageScanner, AIExplainer, detect_sc
 from detection.deepfake import DeepfakeDetector
 from detection.threat_radar import ThreatRadar
 from detection.incident_dossier import IncidentDossierGenerator
+from detection.news_service import CyberNewsService
+from detection.chatbot_engine import ShieldBotEngine
 from seed_data import seed_database
 
 app = Flask(__name__)
@@ -121,10 +123,32 @@ def fir_generator():
                            prefill_suspect=prefill_suspect, 
                            prefill_desc=prefill_desc)
 
+@app.route("/news")
+def news():
+    """Live Cyber Attack Threat News & Intelligence Feed."""
+    category = request.args.get("category", "all")
+    news_items = CyberNewsService.get_news(category)
+    return render_template("news.html", news_items=news_items, active_category=category)
+
 
 # =====================================================================
 # JSON REST API ENDPOINTS
 # =====================================================================
+
+@app.route("/api/news")
+def api_news():
+    """Returns real-time cyber attack threat bulletins."""
+    category = request.args.get("category", "all")
+    news_items = CyberNewsService.get_news(category)
+    return jsonify({"success": True, "news": news_items})
+
+@app.route("/api/chat", methods=["POST"])
+def api_chat():
+    """ShieldBot AI 24/7 Cyber Defense Assistant endpoint."""
+    data = request.get_json(silent=True) or {}
+    message = (data.get("message") or "").strip()
+    response = ShieldBotEngine.get_response(message)
+    return jsonify({"success": True, "response": response})
 
 @app.route("/api/scan/deepfake", methods=["POST"])
 def api_scan_deepfake():

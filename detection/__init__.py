@@ -18,6 +18,8 @@ from detection.scanner import (
 from detection.deepfake import DeepfakeDetector
 from detection.threat_radar import ThreatRadar
 from detection.incident_dossier import IncidentDossierGenerator
+from detection.news_service import CyberNewsService
+from detection.chatbot_engine import ShieldBotEngine
 
 __all__ = [
     "URLScanner",
@@ -32,5 +34,7 @@ __all__ = [
     "SAMPLE_TEST_CASES",
     "DeepfakeDetector",
     "ThreatRadar",
-    "IncidentDossierGenerator"
+    "IncidentDossierGenerator",
+    "CyberNewsService",
+    "ShieldBotEngine"
 ]
