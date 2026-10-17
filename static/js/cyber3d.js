@@ -229,6 +229,74 @@
       const lineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
       scene.add(lineMesh);
 
+      // --- 3D Tron Perspective Cyber Horizon Floor & Ceiling Grids ---
+      const gridGeo = new THREE.PlaneGeometry(2800, 2200, 40, 40);
+      const gridMat = new THREE.MeshBasicMaterial({
+        color: 0x00e5ff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.18
+      });
+      const cyberGrid = new THREE.Mesh(gridGeo, gridMat);
+      cyberGrid.rotation.x = -Math.PI / 2.3;
+      cyberGrid.position.set(0, -320, 0);
+      scene.add(cyberGrid);
+
+      const ceilMat = new THREE.MeshBasicMaterial({
+        color: 0x8b5cf6,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.09
+      });
+      const ceilingGrid = new THREE.Mesh(gridGeo, ceilMat);
+      ceilingGrid.rotation.x = Math.PI / 2.3;
+      ceilingGrid.position.set(0, 520, 0);
+      scene.add(ceilingGrid);
+
+      // --- Constellation of Floating Rotating 3D Polyhedra & Crystals ---
+      const floatingShapesGroup = new THREE.Group();
+      scene.add(floatingShapesGroup);
+
+      const polyhedraDefs = [
+        { geo: new THREE.IcosahedronGeometry(32, 0), color: 0x00e5ff, pos: [-460, 190, -180], rotSpd: [0.009, 0.012, 0.006] },
+        { geo: new THREE.OctahedronGeometry(36, 0), color: 0x00ff88, pos: [510, -110, -140], rotSpd: [0.01, 0.008, 0.011] },
+        { geo: new THREE.TorusGeometry(32, 2.5, 12, 40), color: 0x8b5cf6, pos: [-360, -210, -90], rotSpd: [0.012, 0.015, 0.007] },
+        { geo: new THREE.DodecahedronGeometry(38, 0), color: 0x00e5ff, pos: [440, 250, -220], rotSpd: [0.007, 0.011, 0.013] },
+        { geo: new THREE.TetrahedronGeometry(30, 0), color: 0x3b82f6, pos: [-580, -40, -280], rotSpd: [0.009, 0.013, 0.006] },
+        { geo: new THREE.TorusGeometry(42, 2, 16, 50), color: 0x00ff88, pos: [600, 90, -260], rotSpd: [0.014, 0.007, 0.012] },
+        { geo: new THREE.IcosahedronGeometry(24, 1), color: 0x8b5cf6, pos: [0, 310, -320], rotSpd: [0.006, 0.01, 0.014] },
+        { geo: new THREE.OctahedronGeometry(28, 0), color: 0x00e5ff, pos: [-240, 270, -160], rotSpd: [0.011, 0.007, 0.009] },
+        { geo: new THREE.TorusKnotGeometry(22, 4, 64, 8), color: 0x00e5ff, pos: [270, -250, -150], rotSpd: [0.013, 0.011, 0.008] }
+      ];
+
+      const floatingMeshes = [];
+      polyhedraDefs.forEach((item, idx) => {
+        const wireMaterial = new THREE.MeshBasicMaterial({
+          color: item.color,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.6
+        });
+        const mesh = new THREE.Mesh(item.geo, wireMaterial);
+        mesh.position.set(item.pos[0], item.pos[1], item.pos[2]);
+
+        const innerMaterial = new THREE.MeshBasicMaterial({
+          color: item.color,
+          transparent: true,
+          opacity: 0.09
+        });
+        const innerMesh = new THREE.Mesh(item.geo, innerMaterial);
+        mesh.add(innerMesh);
+
+        floatingShapesGroup.add(mesh);
+        floatingMeshes.push({
+          mesh: mesh,
+          rotSpd: item.rotSpd,
+          baseY: item.pos[1],
+          phase: idx * 0.7
+        });
+      });
+
       // Mouse Parallax coordinates
       let mouseX = 0;
       let mouseY = 0;
@@ -236,8 +304,8 @@
       let targetY = 0;
 
       window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX - window.innerWidth / 2) * 0.4;
-        mouseY = (e.clientY - window.innerHeight / 2) * 0.4;
+        mouseX = (e.clientX - window.innerWidth / 2) * 0.35;
+        mouseY = (e.clientY - window.innerHeight / 2) * 0.35;
       }, { passive: true });
 
       // Window resize
@@ -251,11 +319,25 @@
       function animate() {
         requestAnimationFrame(animate);
 
+        const time = Date.now() * 0.001;
+
+        // Animate floating 3D polyhedra & smooth floating bob
+        floatingMeshes.forEach(item => {
+          item.mesh.rotation.x += item.rotSpd[0];
+          item.mesh.rotation.y += item.rotSpd[1];
+          item.mesh.rotation.z += item.rotSpd[2];
+          item.mesh.position.y = item.baseY + Math.sin(time + item.phase) * 14;
+        });
+
+        // Forward motion effect on cyber horizon grids
+        cyberGrid.position.z = (time * 55) % 55;
+        ceilingGrid.position.z = (time * 35) % 55;
+
         // Interpolate camera to mouse position
         targetX += (mouseX - targetX) * 0.03;
         targetY += (mouseY - targetY) * 0.03;
         camera.position.x = targetX;
-        camera.position.y = -targetY;
+        camera.position.y = -targetY + Math.sin(time * 0.6) * 10;
         camera.lookAt(scene.position);
 
         // Update particle positions
@@ -700,9 +782,9 @@
   // 5. Zero-Dependency 3D Perspective Card Tilt & Dynamic Glare
   // -------------------------------------------------------------
   function init3DCardTilt() {
-    // Select cards for 3D tilt
+    // Select cards for 3D perspective tilt
     const tiltCards = document.querySelectorAll(
-      '.cyber-card, .stat-card, .feature-card, .threat-item, .quiz-card, .sample-pill'
+      '.cyber-card, .stat-card, .soc-stat-tile, .feature-card, .threat-card, .threat-item, .quiz-card, .news-card, .sample-pill, .vesper-stats, .soc-command-hero'
     );
 
     tiltCards.forEach(card => {
@@ -727,17 +809,17 @@
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        // Calculate rotation (-12deg to +12deg)
-        const rotY = ((mouseX / cardWidth) - 0.5) * 16;
-        const rotX = -(((mouseY / cardHeight) - 0.5) * 16);
+        // Calculate rotation (-14deg to +14deg)
+        const rotY = ((mouseX / cardWidth) - 0.5) * 18;
+        const rotX = -(((mouseY / cardHeight) - 0.5) * 18);
 
-        card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(8px)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(12px)`;
 
         // Move dynamic specular glare
         if (glare) {
           const percentX = (mouseX / cardWidth) * 100;
           const percentY = (mouseY / cardHeight) * 100;
-          glare.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, rgba(0, 229, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 25%, transparent 65%)`;
+          glare.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, rgba(0, 229, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 28%, transparent 65%)`;
         }
       });
 
