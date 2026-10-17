@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Report #{{ scan.id }} — ScamShield AI{% endblock %}
+{% block page_title %}Security Audit Report #{{ scan.id }}{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 1.75rem; max-width: 900px; margin: 0 auto;">
+
+  <!-- Breadcrumb & Top Bar -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+    <a href="{{ url_for('history') }}" class="btn btn-secondary btn-sm">
+      ← Back to History
+    </a>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="btn btn-secondary btn-sm" onclick="window.print()">
+        🖨️ Print / Save PDF
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="copyToClipboard(window.location.href, 'Report link copied!')">
+        🔗 Share Link
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Report Card -->
+  <div class="cyber-card">
+    <div class="cyber-card-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+          <span class="badge-risk {{ scan.risk_level | lower }}">{{ scan.risk_level }} Risk</span>
+          <span class="badge-risk low" style="text-transform: uppercase;">{{ scan.scan_type }}</span>
+          <span style="font-size: 0.8rem; color: var(--text-dim);">Audit ID: #{{ scan.id }}</span>
+        </div>
+        <h2 style="font-size: 1.35rem; color: #fff; font-family: var(--font-mono); word-break: break-all;">
+          {{ scan.target_preview }}
+        </h2>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 2.2rem; font-weight: 900; font-family: var(--font-mono);" class="risk-score-display {{ scan.risk_level | lower }}">
+          {{ scan.risk_score }}<span style="font-size: 1rem; color: var(--text-dim);">/100</span>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">Timestamp: {{ scan.created_at }}</div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    {% if scan.full_summary %}
+    <div style="margin-top: 1.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.5rem;">
+        🛡️ Executive Threat Summary
+      </h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; white-space: pre-line;">
+        {{ scan.full_summary }}
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- Indicators -->
+    <div style="margin-top: 1.75rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem;">
+        Detailed Heuristic Findings ({{ scan.indicators | length }})
+      </h3>
+      <div class="indicators-list">
+        {% for ind in scan.indicators %}
+        <div class="indicator-item {{ ind.severity | lower }}">
+          <div class="indicator-item-header">
+            <span class="indicator-title">{{ ind.title }}</span>
+            <span class="badge-risk {{ ind.severity | lower }}">{{ ind.severity }}</span>
+          </div>
+          <p class="indicator-desc">{{ ind.desc }}</p>
+        </div>
+        {% else %}
+        <div style="color: var(--text-muted); font-size: 0.9rem;">No high-severity indicators triggered.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="recommendations-box">
+      <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Actionable Safety Measures
+      </h4>
+      <ul class="recommendations-list">
+        {% for rec in scan.recommendations %}
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>{{ rec }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Cybercrime Reporting Helpline Banner -->
+    <div style="margin-top: 1.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--risk-high-border); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h4 style="color: #fff; font-size: 0.95rem; margin-bottom: 0.2rem;">If You Disclosed Credentials or Suffered Financial Loss:</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Contact your bank immediately and report to the National Cybercrime Portal.</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="tel:1930" class="btn btn-danger btn-sm">Dial 1930</a>
+        <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">cybercrime.gov.in ↗</a>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-box">
+      <span>⚠️</span>
+      <span>ScamShield AI automated assessment represents heuristic estimation. Safe findings do not constitute a legal or security certification.</span>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+    <a href="{{ url_for('scanner') }}" class="btn btn-primary">
+      Scan Another URL
+    </a>
+    <a href="{{ url_for('analyzer') }}" class="btn btn-secondary">
+      Analyze Message
+    </a>
+  </div>
+
+</div>
+{% endblock %}

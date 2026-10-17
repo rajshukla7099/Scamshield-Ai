@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Community Scam Radar — ScamShield AI{% endblock %}
+{% block page_title %}Community Scam Radar & Crowdsourced Reporting{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 1050px; margin: 0 auto;">
+
+  <!-- Report Submission Card -->
+  <div class="cyber-card">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <div>
+          <div class="card-title">Report a Suspicious Threat</div>
+          <div class="card-subtitle">Crowdsource scam intelligence to protect fellow citizens</div>
+        </div>
+      </div>
+    </div>
+
+    <form id="reportThreatForm" onsubmit="handleReportSubmit(event)">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <label class="form-label" for="reportType">Threat Type</label>
+          <select id="reportType" class="form-select" required>
+            <option value="url">Phishing / Malicious URL</option>
+            <option value="phone">Scam Caller / WhatsApp Number</option>
+            <option value="message">SMS / Social Media Text</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label" for="reportCategory">Threat Category</label>
+          <select id="reportCategory" class="form-select" required>
+            <option value="Banking Phishing">Banking & KYC Phishing</option>
+            <option value="Utility Scam">Electricity / Utility Power Cut Scam</option>
+            <option value="Digital Arrest">Digital Arrest & Police Extortion</option>
+            <option value="Fake Job">Fake Work-From-Home / Telegram Task</option>
+            <option value="UPI QR Fraud">UPI QR Code 'Scan to Receive' Trap</option>
+            <option value="Lottery & Prize">Lottery & KBC Prize Claim</option>
+            <option value="Other Social Engineering">Other Social Engineering</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reportTarget">Suspicious Link, Phone Number, or Message Excerpt</label>
+        <input
+          type="text"
+          id="reportTarget"
+          class="form-input"
+          placeholder="e.g. +91 9876543210 or http://sbi-reward.top"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reportDescription">Incident Context & Modus Operandi (Optional)</label>
+        <textarea
+          id="reportDescription"
+          class="form-textarea"
+          rows="2"
+          placeholder="Describe how the scammer approached you (e.g. Caller claimed to be electricity officer Rahul Sharma)..."
+        ></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <span style="font-size: 0.75rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.4rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Numbers & emails are automatically masked before public display.
+        </span>
+        <button type="submit" id="reportSubmitBtn" class="btn btn-primary">
+          Submit to Scam Radar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Community Threat Radar Feed -->
+  <div class="cyber-card">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Live Community Threat Radar</div>
+          <div class="card-subtitle">Crowdsourced intelligence feed with deduplication & confirmation counters</div>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="loadCommunityReports()">
+        🔄 Refresh Feed
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="cyber-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Reported Target (Masked)</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Confirmations</th>
+            <th>Timestamp</th>
+            <th style="text-align: right;">Review Action</th>
+          </tr>
+        </thead>
+        <tbody id="reportsTableBody">
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-dim); padding: 2rem;">Loading community threat radar...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="disclaimer-box" style="margin-top: 1rem;">
+      <span>ℹ️</span>
+      <span>Community reports represent citizen-submitted indicators and are pending formal verification. Do not consider unverified reports as certified legal judgments.</span>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadCommunityReports() {
+  fetch('/api/reports')
+    .then(r => r.json())
+    .then(data => {
+      const tbody = document.getElementById('reportsTableBody');
+      if (!data.success || !data.reports || data.reports.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-dim); padding: 2rem;">No community reports logged yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.reports.map(r => {
+        let statusBadgeClass = 'medium';
+        if (r.status === 'Verified Scam') statusBadgeClass = 'high';
+        if (r.status === 'False Alarm') statusBadgeClass = 'low';
+
+        return `
+          <tr>
+            <td>
+              <span class="badge-risk low" style="text-transform: uppercase;">${escapeHtml(r.report_type)}</span>
+            </td>
+            <td style="font-family: var(--font-mono); font-size: 0.85rem; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              ${escapeHtml(r.target_content)}
+            </td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">
+              ${escapeHtml(r.category)}
+            </td>
+            <td>
+              <span class="badge-risk ${statusBadgeClass}">${escapeHtml(r.status)}</span>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="upvoteThreat(${r.id})">
+                👍 <span id="upvotes-${r.id}">${r.upvotes}</span>
+              </button>
+            </td>
+            <td style="color: var(--text-dim); font-size: 0.8rem; white-space: nowrap;">
+              ${escapeHtml(r.created_at)}
+            </td>
+            <td style="text-align: right; white-space: nowrap;">
+              <select class="form-select" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; max-width: 130px; display: inline-block;" onchange="updateThreatStatus(${r.id}, this.value)">
+                <option value="Pending" ${r.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Verified Scam" ${r.status === 'Verified Scam' ? 'selected' : ''}>Verify Scam</option>
+                <option value="In Review" ${r.status === 'In Review' ? 'selected' : ''}>In Review</option>
+                <option value="False Alarm" ${r.status === 'False Alarm' ? 'selected' : ''}>False Alarm</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    })
+    .catch(err => {
+      console.error(err);
+      showToast("Failed to load community radar", 'error');
+    });
+}
+
+function handleReportSubmit(e) {
+  e.preventDefault();
+  const reportType = document.getElementById('reportType').value;
+  const category = document.getElementById('reportCategory').value;
+  const target = document.getElementById('reportTarget').value.trim();
+  const desc = document.getElementById('reportDescription').value.trim();
+
+  if (!target) {
+    showToast("Please enter target content", 'error');
+    return;
+  }
+
+  const btn = document.getElementById('reportSubmitBtn');
+  btn.disabled = true;
+
+  fetch('/api/reports', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      report_type: reportType,
+      category: category,
+      target_content: target,
+      description: desc
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    btn.disabled = false;
+    if (data.success) {
+      showToast(data.data.message || "Report logged to Scam Radar!", 'success');
+      document.getElementById('reportThreatForm').reset();
+      loadCommunityReports();
+    } else {
+      showToast(data.error || "Submission failed", 'error');
+    }
+  })
+  .catch(err => {
+    btn.disabled = false;
+    showToast("Network error submitting report", 'error');
+  });
+}
+
+function upvoteThreat(reportId) {
+  fetch(`/api/reports/${reportId}/upvote`, { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        const elem = document.getElementById(`upvotes-${reportId}`);
+        if (elem) elem.textContent = data.upvotes;
+        showToast("Confirmation vote recorded!", 'success');
+      }
+    });
+}
+
+function updateThreatStatus(reportId, newStatus) {
+  fetch(`/api/reports/${reportId}/status`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      showToast(`Status updated to ${newStatus}`, 'success');
+      loadCommunityReports();
+    } else {
+      showToast(data.error || "Failed to update status", 'error');
+    }
+  });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCommunityReports();
+});
+</script>
+{% endblock %}

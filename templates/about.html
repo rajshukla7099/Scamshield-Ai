@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}About ScamShield AI — HYPNEXIS ’26 | Manipal University Jaipur{% endblock %}
+{% block page_title %}About ScamShield AI, Architecture & Social Impact{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 960px; margin: 0 auto;">
+
+  <!-- Hackathon Banner & Executive Summary -->
+  <div class="cyber-card" style="border-color: rgba(0, 229, 255, 0.4); background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.1), transparent 60%), var(--bg-card);">
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.8rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 1rem;">
+      <span>🏆 HYPNEXIS ’26 • Manipal University Jaipur</span>
+    </div>
+
+    <div class="cyber-card-header" style="border-bottom: none; padding-bottom: 0;">
+      <div class="card-title-group">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+        </div>
+        <div>
+          <div class="card-title" style="font-size: 1.4rem;">Project Objective & Mission</div>
+          <div class="card-subtitle">AI-assisted heuristic defense democratizing cyber safety across Digital Bharat</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size: 0.98rem; color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+      <strong>ScamShield AI</strong> was conceptualized and engineered for <strong>HYPNEXIS ’26 at Manipal University Jaipur</strong> as an offline-first, explainable digital safety web application. In India, cyber fraud escalated past ₹7,000 Crores in 2024, disproportionately targeting students, senior citizens, and first-time digital payment users through social engineering, Hinglish SMS, lookalike URLs, and fake authority impersonation.
+    </p>
+
+    <p style="font-size: 0.98rem; color: var(--text-muted); line-height: 1.7; margin-top: 0.75rem;">
+      Unlike opaque closed-source threat intelligence feeds or paid third-party APIs, ScamShield AI operates with a <strong>100% local, explainable heuristic engine</strong>. It explains exactly <em>why</em> a message or link triggers suspicion, highlights predatory phrases, and provides actionable incident response steps.
+    </p>
+  </div>
+
+  <!-- How the Detection Engine Works -->
+  <div class="cyber-card">
+    <h3 style="font-size: 1.25rem; color: #fff; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span>⚙️</span> How the Detection Engine Works
+    </h3>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+      Our modular Python rule engine uses defense-in-depth lexical analysis, mathematical entropy, and contextual NLP:
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md);">
+        <h4 style="color: var(--accent-cyan); font-size: 0.98rem; margin-bottom: 0.4rem;">1. URL Lexical & TLD Reputation</h4>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55;">
+          Inspects scheme encryption (HTTP vs HTTPS), flags raw numerical IPv4/IPv6 hosts, flags 25+ disposable high-risk TLDs (.xyz, .top, .icu), detects link shortening concealment (bit.ly, t.co), and catches @ symbol authority spoofing.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md);">
+        <h4 style="color: var(--accent-cyan); font-size: 0.98rem; margin-bottom: 0.4rem;">2. Brand Typosquatting & Entropy</h4>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55;">
+          Computes Levenshtein edit distance against 40+ official brand domains (SBI, HDFC, ICICI, Paytm, India Post) alongside Shannon entropy formulas to catch algorithmic domain generation (DGAs) and deceptive homoglyph characters.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md);">
+        <h4 style="color: var(--accent-cyan); font-size: 0.98rem; margin-bottom: 0.4rem;">3. Multilingual & Hinglish NLP Matrix</h4>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55;">
+          Custom contextual regex patterns detect psychological pressure and colloquial deception across 12 distinct Indian fraud taxonomies (Digital Arrest, Electricity Cut, Telegram VIP tasks, and UPI Reverse PIN traps).
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md);">
+        <h4 style="color: var(--accent-cyan); font-size: 0.98rem; margin-bottom: 0.4rem;">4. Negation-Aware Scoring</h4>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55;">
+          Contextual window checks prevent false positives. Security advisories like <em>"Never share your OTP"</em> or <em>"Bank will not ask for PIN"</em> are recognized as legitimate safety notices rather than fraud attempts.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intended Social Impact Across India -->
+  <div class="cyber-card">
+    <h3 style="font-size: 1.25rem; color: #fff; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span>🇮🇳</span> Intended Social Impact & Target Audience
+    </h3>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+      Engineered specifically to protect vulnerable user demographics across India:
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-cyan);">
+        <h4 style="color: #fff; font-size: 0.98rem; margin-bottom: 0.35rem;">College Students & Youth</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+          Shields students from pre-paid Telegram work-from-home tasks, fake scholarship links, fraudulent exam portals, and student loan advance fee scams.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--risk-high);">
+        <h4 style="color: #fff; font-size: 0.98rem; margin-bottom: 0.35rem;">Senior Citizens & Retirees</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+          Protects elderly citizens from terrifying 'Digital Arrest' video calls, urgent electricity power disconnection threats, and fake pension KYC update SMS.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--risk-medium);">
+        <h4 style="color: #fff; font-size: 0.98rem; margin-bottom: 0.35rem;">Digital Payment & UPI Users</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+          Educates users against reverse QR code traps where victims mistakenly enter their UPI PIN expecting to receive money, instead of transferring money out.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-green);">
+        <h4 style="color: #fff; font-size: 0.98rem; margin-bottom: 0.35rem;">Online Shoppers & Small Merchants</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+          Warns shoppers of fake India Post redelivery links, spoofed Swiggy/Zomato refund calls, and counterfeit e-commerce discounts.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy, Security Commitments & Limitations -->
+  <div class="cyber-card">
+    <h3 style="font-size: 1.25rem; color: #fff; font-weight: 800; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span>⚖️</span> System Limitations & Privacy Architecture
+    </h3>
+
+    <ul style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; display: flex; flex-direction: column; gap: 0.6rem;">
+      <li>
+        <strong style="color: #fff;">Zero Server-Side Request Forgery (SSRF):</strong> ScamShield AI NEVER automatically visits, fetches, or downloads files from user-submitted URLs. Analysis is performed strictly offline on lexical strings and metadata to guarantee server security.
+      </li>
+      <li>
+        <strong style="color: #fff;">Privacy by Design:</strong> We never solicit, store, or transmit OTPs, passwords, ATM PINs, or NetBanking credentials. All phone numbers and email addresses are automatically masked before any audit logging.
+      </li>
+      <li>
+        <strong style="color: #fff;">Heuristic Assessment, Not a Formal Warranty:</strong> Scam detection is inherently probabilistic. A Low Risk score indicates no red flags were detected by our current rule matrices; it does NOT constitute an absolute legal guarantee of safety.
+      </li>
+      <li>
+        <strong style="color: #fff;">Independent Educational Tool:</strong> ScamShield AI is an independent academic innovation built for HYPNEXIS ’26. It operates autonomously and does not claim direct real-time integration with classified law enforcement databases.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Official Emergency Helpline Banner -->
+  <div class="cyber-card" style="background: rgba(239, 68, 68, 0.08); border-color: var(--risk-high-border);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h4 style="color: var(--risk-high); font-size: 1.15rem; font-weight: 800; margin-bottom: 0.3rem;">
+          Official National Cyber Crime Helpline
+        </h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          If you have been a victim of financial cyber fraud, call immediately within the 'Golden Hour' to freeze funds.
+        </p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="tel:1930" class="btn btn-danger">Dial 1930</a>
+        <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">cybercrime.gov.in ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Scam Message Analyzer — ScamShield AI{% endblock %}
+{% block page_title %}Scam Message & Social Engineering Analyzer{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 950px; margin: 0 auto;">
+
+  <!-- Message Input Form Card -->
+  <div class="cyber-card">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Multilingual Social Engineering Analyzer</div>
+          <div class="card-subtitle">Detects pressure tactics, OTP demands, and Hinglish scam phrasing</div>
+        </div>
+      </div>
+    </div>
+
+    <form id="messageScanForm">
+      <div class="form-group">
+        <label class="form-label" for="messageInput">Paste SMS, WhatsApp message, Telegram text, or Email:</label>
+        <textarea
+          id="messageInput"
+          class="form-textarea"
+          rows="5"
+          placeholder="e.g. 'Dear Consumer, Aapka bijli connection aaj raat 9:30 baje kat diya jayega...'"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Quick Multilingual & Hinglish Sample Buttons -->
+      <div class="samples-wrapper" style="margin-bottom: 1.25rem;">
+        <span class="samples-label">Test Samples:</span>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('electricity')">⚡ Electricity Cut (Hinglish)</button>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('digital_arrest')">🚨 Digital Arrest Notice</button>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('wfh_job')">💼 WFH Telegram Job (Hinglish)</button>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('upi_fraud')">📲 UPI 'Scan to Receive' Trap</button>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('lottery')">🎁 KBC Lottery Prize</button>
+        <button type="button" class="sample-pill" onclick="fillMessageSample('legit_bank')">✅ Legit Bank Alert</button>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="submit" id="msgScanBtn" class="btn btn-primary" style="padding: 0.75rem 1.75rem;">
+          <span id="msgSpinner" style="display: none;">⏳</span>
+          <span>Analyze Message</span>
+        </button>
+      </div>
+    </form>
+
+    <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--text-dim);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <span>Privacy Guard: All analysis runs in volatile memory. Phone numbers and email addresses are automatically masked.</span>
+    </div>
+  </div>
+
+  <!-- Dynamic Results Card (Hidden until submitted) -->
+  <div class="cyber-card" id="msgResultsCard" style="display: none;">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Message Risk Evaluation</div>
+          <div class="card-subtitle" id="msgResultCategory">Analyzing content...</div>
+        </div>
+      </div>
+      <span class="badge-risk low" id="msgResultRiskBadge">Scanning</span>
+    </div>
+
+    <!-- Risk Gauge -->
+    <div class="risk-meter-container">
+      <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.5rem;">
+        Social Engineering Risk Score
+      </div>
+      <div class="risk-score-display low" id="msgResultScore">0</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Score range: 0 (Safe) to 100 (Critical Fraud)</div>
+
+      <div class="risk-scale-bar">
+        <div class="risk-scale-fill low" id="msgRiskScaleFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Annotated Highlighted Text -->
+    <div style="margin-top: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Threat Span Visualizer
+        </h3>
+        <span style="font-size: 0.75rem; color: var(--text-dim);">Red highlights indicate coercive or fraudulent phrases</span>
+      </div>
+      <div class="annotated-text-box" id="msgAnnotatedText"></div>
+    </div>
+
+    <!-- Indicators Breakdown -->
+    <div style="margin-top: 1.75rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">
+        Identified Threat Vectors
+      </h3>
+      <div class="indicators-list" id="msgResultIndicators"></div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="recommendations-box">
+      <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Actionable Safety Guidelines
+      </h4>
+      <ul class="recommendations-list" id="msgResultRecommendations"></ul>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-box">
+      <span style="font-size: 1rem;">⚠️</span>
+      <span id="msgResultDisclaimer">This score is an automated estimation based on linguistic heuristics. Always verify before sharing sensitive credentials.</span>
+    </div>
+
+    <!-- Actions -->
+    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+      <a href="#" id="msgViewFullReportBtn" class="btn btn-secondary btn-sm" style="display: none;">
+        📄 Open Full Report
+      </a>
+      <a href="{{ url_for('reports') }}" class="btn btn-primary btn-sm">
+        📢 Submit to Community Radar
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analyzer.js') }}"></script>
+{% endblock %}

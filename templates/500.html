@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}500 — System Exception Intercepted{% endblock %}
+{% block page_title %}500 — System Exception Intercepted{% endblock %}
+
+{% block content %}
+<div class="cyber-card" style="text-align: center; padding: 4rem 2rem; max-width: 600px; margin: 3rem auto;">
+  <div style="font-size: 4rem; margin-bottom: 1rem;">⚙️⚠️</div>
+  <h2 style="font-size: 2rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono);">500 — Internal Server Error</h2>
+  <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
+    An unexpected server exception was caught by the safety perimeter. The incident has been contained.
+  </p>
+  <div style="display: flex; justify-content: center; gap: 1rem;">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+      ← Return to Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}

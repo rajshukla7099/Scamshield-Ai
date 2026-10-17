@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ScamShield AI — Intelligent Scam Protection Platform{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2306b6d4'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="/" class="brand-logo">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+          </div>
+          <span>ScamShield<span style="color: var(--accent-cyan);">AI</span></span>
+        </a>
+        <span class="brand-badge">HYPNEXIS ’26</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Scanner</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.path == '/dashboard' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="{{ url_for('scanner') }}" class="nav-item {% if request.path == '/scanner' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          <span>URL Scanner</span>
+        </a>
+        <a href="{{ url_for('analyzer') }}" class="nav-item {% if request.path == '/analyzer' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Message Analyzer</span>
+        </a>
+
+        <div class="nav-section-title">Community & Records</div>
+        <a href="{{ url_for('reports') }}" class="nav-item {% if request.path == '/reports' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>Community Radar</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item {% if request.path == '/history' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Scan History</span>
+        </a>
+
+        <div class="nav-section-title">Education & Info</div>
+        <a href="{{ url_for('learn') }}" class="nav-item {% if request.path == '/learn' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Scam Academy</span>
+        </a>
+        <a href="{{ url_for('about') }}" class="nav-item {% if request.path == '/about' %}active{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>About & Ethics</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="emergency-pill">
+          <div class="pill-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            Cyber Fraud Helpline
+          </div>
+          <div class="pill-number">Dial 1930</div>
+          <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" style="font-size: 0.7rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+            cybercrime.gov.in ↗
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <h1 class="page-title">{% block page_title %}Cyber Threat Protection{% endblock %}</h1>
+        </div>
+
+        <div class="header-right">
+          <div class="header-badge" style="border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.08);">
+            <span class="pulse-dot" style="background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>
+            <span style="color: var(--accent-cyan); font-weight: 600;">HYPNEXIS ’26 @ Manipal University Jaipur</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="openPresentationModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Hackathon Pitch
+          </button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer style="padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-dim); text-align: center; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          ScamShield AI &copy; 2026. Built with pride for <strong>HYPNEXIS ’26 at Manipal University Jaipur</strong>.
+        </div>
+        <div>
+          Official Indian Cyber Fraud Helpline: <strong style="color: var(--risk-high);">1930</strong> | <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer">cybercrime.gov.in</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Hackathon Presentation Pitch Modal -->
+  <div class="modal-overlay" id="presentationModal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <h3 style="color: #fff; font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          🚀 ScamShield AI — 2-Minute Hackathon Pitch
+        </h3>
+        <button onclick="closePresentationModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.25rem;">✕</button>
+      </div>
+
+      <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 0.3rem;">1. The Problem</h4>
+          <p>Over <strong>₹7,000 Crores</strong> were lost to digital financial frauds in India in 2024 alone. Attackers exploit high urgency, WhatsApp messages, Hinglish social engineering, and lookalike domains (SBI, Paytm, India Post) to deceive citizens into disclosing OTPs or UPI PINs.</p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 0.3rem;">2. Our Solution</h4>
+          <p><strong>ScamShield AI</strong> provides an intelligent, explainable scam detection ecosystem combining <strong>URL Heuristics</strong> (typosquatting, high-risk TLDs, raw IP hosts) and a <strong>Multilingual/Hinglish NLP Rule Engine</strong> that highlights threat phrases in real-time, completely <strong>offline without requiring paid external APIs</strong>.</p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 0.3rem;">3. Key Innovations</h4>
+          <ul style="padding-left: 1.2rem; color: var(--text-main);">
+            <li><strong>Multilingual & Hinglish NLP:</strong> Understands <em>"Bijli kat jayega"</em>, <em>"Ghar baithe paise kamaye"</em>, and <em>"Digital Arrest"</em> scams.</li>
+            <li><strong>Explainable Heuristics:</strong> Transparent scoring (0-100) with character-level span highlighting, explaining exactly *why* a message is dangerous.</li>
+            <li><strong>Zero-Cost & Offline-Ready:</strong> Works out-of-the-box with built-in heuristic intelligence; optional LLM integration.</li>
+            <li><strong>Community Radar & Defense Academy:</strong> Crowd-sourced threat logging with PII masking and interactive training scenarios.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 0.3rem;">4. Demo Flow for Judges</h4>
+          <ol style="padding-left: 1.2rem; color: var(--text-main);">
+            <li>Open <strong>URL Scanner</strong> & click <em>"Try Sample: SBI Phishing"</em> ➔ Watch instant 94/100 risk score with lookalike domain detection.</li>
+            <li>Open <strong>Message Analyzer</strong> & click <em>"Sample: Electricity Cut (Hinglish)"</em> ➔ See annotated text highlights on high-pressure threats.</li>
+            <li>View <strong>Dashboard</strong> with real-time Chart.js risk analytics and recent audits.</li>
+            <li>Test your instincts in <strong>Scam Academy</strong> with interactive quiz scenarios.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary" onclick="closePresentationModal()">Got It!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

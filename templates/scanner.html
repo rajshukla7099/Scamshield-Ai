@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Suspicious URL Scanner — ScamShield AI{% endblock %}
+{% block page_title %}Suspicious URL & Phishing Link Scanner{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 950px; margin: 0 auto;">
+
+  <!-- Scanner Input Form Card -->
+  <div class="cyber-card">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Real-Time URL Threat Inspection</div>
+          <div class="card-subtitle">Safe, non-intrusive heuristic analysis without executing unsafe remote connections</div>
+        </div>
+      </div>
+    </div>
+
+    <form id="urlScanForm">
+      <div class="form-group">
+        <label class="form-label" for="urlInput">Enter or paste suspicious link to inspect:</label>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <input
+            type="text"
+            id="urlInput"
+            class="form-input"
+            style="flex: 1; font-family: var(--font-mono); min-width: 280px;"
+            placeholder="e.g. http://sbi-kyc-verification-portal.xyz/login or https://example.com"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button type="submit" id="urlScanBtn" class="btn btn-primary" style="white-space: nowrap;">
+            <span id="scanSpinner" style="display: none;">⏳</span>
+            <span>Inspect Threat</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Sample Buttons -->
+      <div class="samples-wrapper">
+        <span class="samples-label">Try Test Scenarios:</span>
+        <button type="button" class="sample-pill" onclick="fillUrlSample('sbi')">🏦 SBI Phishing (.xyz)</button>
+        <button type="button" class="sample-pill" onclick="fillUrlSample('ip')">🌐 Raw IP Host Phish</button>
+        <button type="button" class="sample-pill" onclick="fillUrlSample('tld')">📦 India Post (.top)</button>
+        <button type="button" class="sample-pill" onclick="fillUrlSample('shortener')">🔗 URL Shortener</button>
+        <button type="button" class="sample-pill" onclick="fillUrlSample('legit')">✅ Legit onlinesbi.sbi</button>
+      </div>
+    </form>
+
+    <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--text-dim);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <span>Zero Server-Side Request Forgery (SSRF) risk: Our scanner strictly decomposes lexical, TLD, brand similarity, and entropy patterns offline.</span>
+    </div>
+  </div>
+
+  <!-- Dynamic Results Card (Hidden until scan is submitted) -->
+  <div class="cyber-card" id="scanResultsCard" style="display: none;">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Threat Assessment Report</div>
+          <div class="card-subtitle" id="resultCategory">Analyzing structure...</div>
+        </div>
+      </div>
+      <span class="badge-risk low" id="resultRiskBadge">Scanning</span>
+    </div>
+
+    <!-- Risk Meter & Gauge -->
+    <div class="risk-meter-container">
+      <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.5rem;">
+        Threat Probability Index
+      </div>
+      <div class="risk-score-display low" id="resultScore">0</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Scale of 0 (Safe / Verified) to 100 (Severe Threat)</div>
+
+      <div class="risk-scale-bar">
+        <div class="risk-scale-fill low" id="riskScaleFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Indicators Breakdown -->
+    <div style="margin-top: 1.75rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        Detected Heuristic Indicators
+      </h3>
+      <div class="indicators-list" id="resultIndicators"></div>
+    </div>
+
+    <!-- Actionable Recommendations -->
+    <div class="recommendations-box">
+      <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Recommended Safety Precautions
+      </h4>
+      <ul class="recommendations-list" id="resultRecommendations"></ul>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-box">
+      <span style="font-size: 1rem;">⚠️</span>
+      <span id="resultDisclaimer">This risk assessment is an automated heuristic estimation. Zero flags do not provide an absolute guarantee of safety.</span>
+    </div>
+
+    <!-- Actions -->
+    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+      <a href="#" id="viewFullReportBtn" class="btn btn-secondary btn-sm" style="display: none;">
+        📄 Open Full Report
+      </a>
+      <a href="{{ url_for('reports') }}" class="btn btn-primary btn-sm">
+        📢 Submit to Community Radar
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
+{% endblock %}
