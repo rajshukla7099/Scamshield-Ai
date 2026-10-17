@@ -240,3 +240,19 @@ function formatChatMarkdown(text) {
     .replace(/\n/g, '<br>');
   return formatted;
 }
+
+// Vesper Appearance Animation Handler
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.appear').forEach(function (el) {
+    el.addEventListener('animationend', function () {
+      el.classList.add('is-in');
+    }, { once: true });
+  });
+
+  // Global safety fallback (1.8s)
+  setTimeout(function () {
+    document.querySelectorAll('.appear:not(.is-in)').forEach(function (el) {
+      el.classList.add('is-in');
+    });
+  }, 1800);
+});

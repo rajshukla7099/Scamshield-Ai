@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}ScamShield AI — Intelligent Scam Protection Platform{% endblock %}</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2306b6d4'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>">
+  <title>{% block title %}ScamShield AI — Operational Scam & Threat Protection{% endblock %}</title>
+  <!-- Vesper Exact Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Ccircle cx='7.3' cy='3.2' r='1.45'/%3E%3Crect x='5.5' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Crect x='14.9' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Ccircle cx='16.7' cy='20.8' r='1.45'/%3E%3C/g%3E%3C/svg%3E">
+  <style>html, body { background: #000000 !important; color: #ffffff; }</style>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   {% block head %}{% endblock %}
 </head>
-<body>
+<body style="background:#000;color:#fff">
+  <!-- Vesper Ambient Grain & Deep Scrim Layers -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="hero-photo" aria-hidden="true"></div>
+
   <!-- Live Wallpaper Background (Pinterest Video) & 3D WebGL Canvas -->
   <div class="cyber-live-wallpaper-container">
     <video id="cyberBgVideo" class="cyber-bg-video" autoplay loop muted playsinline poster="{{ url_for('static', filename='images/cyber_bg_thumb.jpg') }}">
@@ -26,13 +32,22 @@
     <!-- Sidebar Navigation -->
     <aside class="app-sidebar" id="appSidebar">
       <div class="sidebar-header">
-        <a href="/" class="brand-logo">
-          <div class="brand-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+        <a href="/" class="brand-logo" aria-label="ScamShield.ai">
+          <div class="brand-icon" style="background: none; border: none; padding: 0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
+              <g transform="rotate(-30 12 12)">
+                <circle cx="7.3" cy="3.2" r="1.45"/>
+                <rect x="5.5" y="4.7" width="3.6" height="14.6" rx="1.8"/>
+                <rect x="14.9" y="4.7" width="3.6" height="14.6" rx="1.8"/>
+                <circle cx="16.7" cy="20.8" r="1.45"/>
+              </g>
+            </svg>
           </div>
-          <span>ScamShield<span style="color: var(--accent-cyan);">AI</span></span>
+          <span style="font-weight: 600; letter-spacing: -0.03em; font-size: 1.05rem; color: #fff;">
+            ScamShield<span class="logo-suffix" style="font-weight: 400; color: #9a9a9a;">.ai</span>
+          </span>
         </a>
-        <span class="brand-badge">PRO v2.5</span>
+        <span class="brand-badge" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: #d8d8d8;">PRO v2.5</span>
       </div>
 
       <nav class="sidebar-nav">

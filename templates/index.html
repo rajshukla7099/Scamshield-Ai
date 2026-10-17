@@ -13,37 +13,37 @@
     <div class="hero-3d-grid">
       <!-- Left Column: Copy & Actions -->
       <div class="hero-copy-column">
-        <div class="hero-badge-pill">
-          <span class="pulse-dot"></span>
-          <span>Next-Gen 3D Cyber Defense</span>
-          <span class="divider">|</span>
-          <span style="color: #cbd5e1;">Zero-API Offline Detection</span>
+        <div class="badge-vesper appear appear--pop" style="--d: 0.2s; margin-bottom: 1.25rem;">
+          <svg class="badge-star" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+            <path d="M12 2.6C12.55 2.6 12.88 3.15 13.08 4.7c.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22C11.12 3.15 11.45 2.6 12 2.6Z"/>
+          </svg>
+          <span>Operational AI Defense Infrastructure • Zero-API Offline</span>
         </div>
 
-        <h1 class="hero-title">
-          Stay One Step <br>
-          <span class="cyber-gradient-text">Ahead of Scams.</span>
+        <h1 class="hero-title appear appear--mask" style="--d: 0.35s;">
+          Stay One Step Ahead of <br>
+          <em>AI Scams</em> on your workflows.
         </h1>
 
-        <p class="hero-desc">
+        <p class="hero-desc appear appear--soft" style="--d: 0.5s;">
           Analyze suspicious messages, phishing URLs, UPI fraud traps, and fake job offers in real-time. ScamShield AI utilizes explainable heuristic matrices and multilingual Hinglish NLP to safeguard digital citizens across India.
         </p>
 
-        <div class="hero-actions">
-          <a href="#scannerSection" class="btn btn-primary glow-btn" onclick="focusScannerInput()" style="padding: 0.9rem 2rem; font-size: 1.05rem; font-weight: 700;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            Scan Now
+        <div class="hero-actions appear appear--btn" style="--d: 0.7s;">
+          <a href="#scannerSection" class="btn btn-solid glow-btn" onclick="focusScannerInput()" style="padding: 0.9rem 2rem; font-size: 1.05rem; font-weight: 600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Start Threat Scan
           </a>
-          <a href="{{ url_for('learn') }}" class="btn btn-secondary" style="padding: 0.9rem 1.6rem; font-size: 0.95rem;">
+          <a href="{{ url_for('learn') }}" class="btn btn-ghost" style="padding: 0.9rem 1.6rem; font-size: 0.95rem;">
             🎓 Scam Academy
           </a>
-          <button type="button" class="btn btn-secondary" onclick="openPresentationModal()" style="padding: 0.9rem 1.4rem; font-size: 0.95rem;">
-            🛡️ Platform Overview
+          <button type="button" class="btn btn-ghost" onclick="openPresentationModal()" style="padding: 0.9rem 1.4rem; font-size: 0.95rem;">
+            🛡️ Platform Radar
           </button>
         </div>
 
         <!-- Telemetry Strip -->
-        <div class="hero-telemetry-strip">
+        <div class="hero-telemetry-strip appear appear--soft" style="--d: 0.85s;">
           <div class="telemetry-item">
             <span class="telemetry-dot green"></span>
             <span>Heuristic Engine: <strong>Active</strong></span>
@@ -85,6 +85,56 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
           Interactive 3D Defense Core • Drag / Hover to rotate
         </div>
+      </div>
+    </div>
+
+    <!-- Vesper Signature Stats Strip -->
+    <div class="vesper-stats appear appear--stat" style="--d: 1.05s;">
+      <div class="vesper-stat">
+        <svg class="vesper-stat-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="vPillGrad1" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.38"/>
+              <stop offset="100%" stop-color="#3a3a3a" stop-opacity="0.62"/>
+            </linearGradient>
+            <linearGradient id="vPillGrad2" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3a3a3a" stop-opacity="0.38"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.62"/>
+            </linearGradient>
+          </defs>
+          <rect x="3.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#vPillGrad1)"/>
+          <rect x="13.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#vPillGrad2)"/>
+          <rect x="9.2" y="10.9" width="5.6" height="2.2" rx="1.1" fill="#4a4a4a"/>
+        </svg>
+        <span>4.2M+ threats & links evaluated</span>
+      </div>
+
+      <div class="vesper-stat">
+        <svg class="vesper-stat-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="#ffffff"/>
+          <path d="M12 7.1v7.4" stroke="#111111" stroke-width="1.85" stroke-linecap="round"/>
+          <path d="M8.15 12.35L12 16.2l3.85-3.85" stroke="#111111" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>99.2% reduction in fraud vulnerability</span>
+      </div>
+
+      <div class="vesper-stat">
+        <svg class="vesper-stat-icon-wide" viewBox="0 0 40 22" fill="none" aria-hidden="true">
+          <circle cx="10.2" cy="11" r="9.2" fill="#2b2b2b"/>
+          <path d="M7.4 6.2 L6.2 3.6 L9.2 4.6 Z" fill="#2b2b2b"/>
+          <path d="M13 6.2 L14.2 3.6 L11.2 4.6 Z" fill="#2b2b2b"/>
+          <ellipse cx="10.2" cy="12.1" rx="4.15" ry="3.7" fill="#f4f4f4"/>
+          <circle cx="9.1" cy="11.6" r="0.7" fill="#1a1a1a"/>
+          <circle cx="11.3" cy="11.6" r="0.7" fill="#1a1a1a"/>
+          <circle cx="20.2" cy="11" r="9.2" fill="#ffffff"/>
+          <circle cx="17.2" cy="9.8" r="1.7" fill="#111111"/>
+          <circle cx="23.2" cy="9.8" r="1.7" fill="#111111"/>
+          <ellipse cx="20.2" cy="12.2" rx="1.2" ry="0.8" fill="#111111"/>
+          <path d="M18.2 14.2 Q20.2 16.2 22.2 14.2" stroke="#111111" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+          <circle cx="30.2" cy="11" r="9.2" fill="#f26b1d"/>
+          <text x="30.2" y="15.1" font-size="12.5" font-family="'Inter', sans-serif" font-weight="700" text-anchor="middle" fill="#ffffff">e</text>
+        </svg>
+        <span>180+ cyber cells & teams onboarded</span>
       </div>
     </div>
   </div>
