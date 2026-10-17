@@ -6,40 +6,85 @@
 {% block content %}
 <div style="display: flex; flex-direction: column; gap: 2.25rem;">
 
-  <!-- Hero Section -->
-  <div class="cyber-card hero-card" style="background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), rgba(0, 255, 136, 0.05) 50%, transparent 80%), var(--bg-card); padding: 3rem 2.25rem; border: 1px solid rgba(0, 229, 255, 0.3); position: relative; overflow: hidden;">
-    <div style="position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(0, 229, 255, 0.15), transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+  <!-- Hero 3D Showcase Section -->
+  <div class="cyber-card hero-card" style="padding: 2.75rem 2.25rem; position: relative; overflow: hidden; border-color: rgba(0, 229, 255, 0.35);">
+    <div style="position: absolute; top: -60px; right: -60px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(0, 229, 255, 0.18), transparent 70%); border-radius: 50%; pointer-events: none;"></div>
 
-    <div style="max-width: 820px; position: relative; z-index: 2;">
-      <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.35); padding: 0.4rem 1rem; border-radius: 9999px; font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 1.25rem;">
-        <span class="pulse-dot" style="background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green);"></span>
-        <span>Next-Gen Cybersecurity Platform</span>
-        <span style="opacity: 0.5;">|</span>
-        <span style="color: #cbd5e1;">Zero-API Offline Detection Engine</span>
+    <div class="hero-3d-grid">
+      <!-- Left Column: Copy & Actions -->
+      <div class="hero-copy-column">
+        <div class="hero-badge-pill">
+          <span class="pulse-dot"></span>
+          <span>Next-Gen 3D Cyber Defense</span>
+          <span class="divider">|</span>
+          <span style="color: #cbd5e1;">Zero-API Offline Detection</span>
+        </div>
+
+        <h1 class="hero-title">
+          Stay One Step <br>
+          <span class="cyber-gradient-text">Ahead of Scams.</span>
+        </h1>
+
+        <p class="hero-desc">
+          Analyze suspicious messages, phishing URLs, UPI fraud traps, and fake job offers in real-time. ScamShield AI utilizes explainable heuristic matrices and multilingual Hinglish NLP to safeguard digital citizens across India.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#scannerSection" class="btn btn-primary glow-btn" onclick="focusScannerInput()" style="padding: 0.9rem 2rem; font-size: 1.05rem; font-weight: 700;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Scan Now
+          </a>
+          <a href="{{ url_for('learn') }}" class="btn btn-secondary" style="padding: 0.9rem 1.6rem; font-size: 0.95rem;">
+            🎓 Scam Academy
+          </a>
+          <button type="button" class="btn btn-secondary" onclick="openPresentationModal()" style="padding: 0.9rem 1.4rem; font-size: 0.95rem;">
+            🛡️ Platform Overview
+          </button>
+        </div>
+
+        <!-- Telemetry Strip -->
+        <div class="hero-telemetry-strip">
+          <div class="telemetry-item">
+            <span class="telemetry-dot green"></span>
+            <span>Heuristic Engine: <strong>Active</strong></span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telemetry-dot cyan"></span>
+            <span>Hinglish NLP: <strong>Calibrated</strong></span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telemetry-dot amber"></span>
+            <span>Helpline: <strong>1930 Ready</strong></span>
+          </div>
+        </div>
       </div>
 
-      <h1 style="font-size: 2.85rem; font-weight: 900; line-height: 1.15; color: #fff; margin-bottom: 1rem; letter-spacing: -0.025em;">
-        Stay One Step <br>
-        <span style="background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          Ahead of Scams.
-        </span>
-      </h1>
+      <!-- Right Column: Interactive 3D Holographic Stage -->
+      <div class="hero-3d-stage-wrapper">
+        <div id="hero3dStage" class="hero-3d-stage" title="Interactive 3D Hologram: Drag or hover to rotate, click to pulse"></div>
+        
+        <!-- Floating 3D Hologram Badges -->
+        <div class="hologram-badge-item badge-top-left">
+          <span>🛡️</span>
+          <span>Heuristic Core Active</span>
+        </div>
+        <div class="hologram-badge-item badge-top-right">
+          <span>⚡</span>
+          <span>Zero-API Offline Mode</span>
+        </div>
+        <div class="hologram-badge-item badge-bottom-left">
+          <span>🇮🇳</span>
+          <span>Hinglish NLP Engine</span>
+        </div>
+        <div class="hologram-badge-item badge-bottom-right">
+          <span>🌐</span>
+          <span>Lookalike Radar</span>
+        </div>
 
-      <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; max-width: 720px;">
-        Analyze suspicious messages and links before you trust them. ScamShield AI uses heuristic pattern matching, brand lookalike detection, and multilingual Hinglish NLP to identify cyber scams targeting students, senior citizens, and digital payment users in India.
-      </p>
-
-      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
-        <a href="#scannerSection" class="btn btn-primary glow-btn" onclick="focusScannerInput()" style="padding: 0.9rem 2rem; font-size: 1.05rem; font-weight: 700;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          Scan Now
-        </a>
-        <a href="{{ url_for('learn') }}" class="btn btn-secondary" style="padding: 0.9rem 1.6rem; font-size: 0.95rem;">
-          🎓 Scam Education & Quizzes
-        </a>
-        <button type="button" class="btn btn-secondary" onclick="openPresentationModal()" style="padding: 0.9rem 1.4rem; font-size: 0.95rem;">
-          🛡️ Platform Overview
-        </button>
+        <div class="stage-hint">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+          Interactive 3D Defense Core • Drag / Hover to rotate
+        </div>
       </div>
     </div>
   </div>
@@ -519,6 +564,11 @@ function handleUnifiedScan(e) {
   btn.disabled = true;
   btnText.textContent = "Scanning...";
 
+  // Trigger 3D Laser sweep animation & Audio
+  if (window.trigger3DLaserSweep) {
+    window.trigger3DLaserSweep('scannerSection');
+  }
+
   const statusTexts = [
     "Deconstructing lexical token hierarchy...",
     "Evaluating brand lookalike similarity & Levenshtein entropy...",
@@ -573,6 +623,11 @@ function handleUnifiedScan(e) {
 function displayScanResults(data) {
   const card = document.getElementById('unifiedResultsCard');
   card.style.display = 'block';
+
+  // Play audio response chime
+  if (window.CyberAudio) {
+    window.CyberAudio.playAlert(data.risk_level === 'High');
+  }
 
   // Category and badges
   document.getElementById('resPrimaryCategory').textContent = data.primary_category || "General Threat Assessment";

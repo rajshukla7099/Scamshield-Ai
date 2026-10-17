@@ -35,6 +35,7 @@ function handleMessageScan(e) {
 
   submitBtn.disabled = true;
   if (spinner) spinner.style.display = 'inline-block';
+  if (window.trigger3DLaserSweep) window.trigger3DLaserSweep();
 
   fetch('/api/scan/message', {
     method: 'POST',
@@ -49,6 +50,10 @@ function handleMessageScan(e) {
     if (!data.success) {
       showToast(data.error || "Analysis failed", 'error');
       return;
+    }
+
+    if (window.CyberAudio) {
+      window.CyberAudio.playAlert(data.result && data.result.risk_level === 'High');
     }
 
     renderMessageResults(message, data.result, data.summary, data.scan_id);

@@ -34,6 +34,7 @@ function handleUrlScan(e) {
 
   submitBtn.disabled = true;
   if (spinner) spinner.style.display = 'inline-block';
+  if (window.trigger3DLaserSweep) window.trigger3DLaserSweep();
 
   fetch('/api/scan/url', {
     method: 'POST',
@@ -48,6 +49,10 @@ function handleUrlScan(e) {
     if (!data.success) {
       showToast(data.error || "Analysis failed", 'error');
       return;
+    }
+
+    if (window.CyberAudio) {
+      window.CyberAudio.playAlert(data.result && data.result.risk_level === 'High');
     }
 
     renderScanResults(data.result, data.summary, data.scan_id);

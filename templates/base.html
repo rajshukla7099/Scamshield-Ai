@@ -8,10 +8,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   {% block head %}{% endblock %}
 </head>
 <body>
+  <!-- 3D Interactive Cyber Background Canvas -->
+  <canvas id="cyber3dCanvas" class="cyber-3d-bg"></canvas>
   <div class="app-container">
     <!-- Sidebar Navigation -->
     <aside class="app-sidebar" id="appSidebar">
@@ -90,6 +93,10 @@
             <span class="pulse-dot" style="background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>
             <span style="color: var(--accent-cyan); font-weight: 600;">Autonomous Cyber Defense Active</span>
           </div>
+          <button class="btn btn-secondary btn-sm sfx-pill" id="sfxToggleBtn" onclick="CyberAudio.toggle()" title="Toggle Sci-Fi SFX Audio Feedback">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span>SFX ON</span>
+          </button>
           <button class="btn btn-secondary btn-sm" onclick="openPresentationModal()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             Platform Overview
@@ -163,6 +170,7 @@
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
+  <script src="{{ url_for('static', filename='js/cyber3d.js') }}"></script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
