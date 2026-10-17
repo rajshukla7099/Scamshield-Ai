@@ -122,10 +122,13 @@
 
     <!-- Actions -->
     <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+      <button type="button" class="btn btn-primary btn-sm glow-btn" onclick="transferMsgToFir()" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan)); color: #000; font-weight: 700;">
+        🚨 Generate Police FIR & Bank Dispute Dossier
+      </button>
       <a href="#" id="msgViewFullReportBtn" class="btn btn-secondary btn-sm" style="display: none;">
         📄 Open Full Report
       </a>
-      <a href="{{ url_for('reports') }}" class="btn btn-primary btn-sm">
+      <a href="{{ url_for('reports') }}" class="btn btn-secondary btn-sm">
         📢 Submit to Community Radar
       </a>
     </div>
@@ -136,4 +139,11 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/analyzer.js') }}"></script>
+<script>
+function transferMsgToFir() {
+  const cat = document.getElementById('msgResultCategory') ? document.getElementById('msgResultCategory').textContent : 'Deceptive Social Engineering Message';
+  const text = document.getElementById('messageInput') ? document.getElementById('messageInput').value : '';
+  window.location.href = `/fir-generator?type=${encodeURIComponent(cat)}&desc=${encodeURIComponent(text)}`;
+}
+</script>
 {% endblock %}

@@ -112,10 +112,13 @@
 
     <!-- Actions -->
     <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+      <button type="button" class="btn btn-primary btn-sm glow-btn" onclick="transferUrlToFir()" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan)); color: #000; font-weight: 700;">
+        🚨 Generate Police FIR & Bank Dispute Dossier
+      </button>
       <a href="#" id="viewFullReportBtn" class="btn btn-secondary btn-sm" style="display: none;">
         📄 Open Full Report
       </a>
-      <a href="{{ url_for('reports') }}" class="btn btn-primary btn-sm">
+      <a href="{{ url_for('reports') }}" class="btn btn-secondary btn-sm">
         📢 Submit to Community Radar
       </a>
     </div>
@@ -126,4 +129,11 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
+<script>
+function transferUrlToFir() {
+  const cat = document.getElementById('resultCategory') ? document.getElementById('resultCategory').textContent : 'Phishing URL Scam';
+  const url = document.getElementById('urlInput') ? document.getElementById('urlInput').value : '';
+  window.location.href = `/fir-generator?type=${encodeURIComponent(cat)}&suspect=${encodeURIComponent(url)}`;
+}
+</script>
 {% endblock %}

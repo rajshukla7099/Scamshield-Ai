@@ -294,6 +294,21 @@
         <ul class="recommendations-list" id="resRecommendationsList"></ul>
       </div>
 
+      <!-- Emergency Action: File FIR & Bank Recovery Button -->
+      <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); padding: 1.25rem; border-radius: var(--radius-md);">
+        <div>
+          <h4 style="color: var(--accent-green); font-size: 1.05rem; font-weight: 800; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 6px;">
+            <span>🚨</span> Defrauded or Need Official Legal Reporting?
+          </h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">
+            Generate ready-to-file Police FIR complaint and RBI-compliant Bank Dispute letters for this incident.
+          </p>
+        </div>
+        <button type="button" class="btn btn-primary glow-btn" onclick="transferScanToFir()" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan)); color: #000; font-weight: 800;">
+          Generate Incident FIR & Bank Dossier ➔
+        </button>
+      </div>
+
       <!-- Official Disclaimer -->
       <div style="padding: 0.85rem 1.25rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-dim); line-height: 1.5;">
         <strong style="color: #cbd5e1;">Safety Disclaimer:</strong> <span id="resDisclaimerText">This risk assessment is an automated heuristic estimation. Zero flags do not provide an absolute guarantee of safety. Exercise vigilance when entering credentials.</span>
@@ -799,6 +814,12 @@ function refreshDashboardStats() {
       }
     })
     .catch(() => {});
+}
+
+function transferScanToFir() {
+  const cat = document.getElementById('resPrimaryCategory') ? document.getElementById('resPrimaryCategory').textContent : 'Cyber Scam Incident';
+  const content = document.getElementById('scanInputText') ? document.getElementById('scanInputText').value : '';
+  window.location.href = `/fir-generator?type=${encodeURIComponent(cat)}&desc=${encodeURIComponent(content)}`;
 }
 
 // Initialize on DOM ready

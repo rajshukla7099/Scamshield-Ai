@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+
+{% block title %}AI Cyber Incident FIR & Crisis Dossier Generator — ScamShield AI{% endblock %}
+{% block page_title %}Cyber Incident FIR & Legal Recovery Dossier Generator{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 1050px; margin: 0 auto;">
+
+  <!-- Hero Header Card -->
+  <div class="cyber-card" style="background: radial-gradient(circle at top right, rgba(0, 255, 136, 0.12), transparent 70%), var(--bg-card); border-color: rgba(0, 255, 136, 0.35);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+      <div style="max-width: 720px;">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; color: var(--accent-green); font-weight: 700; margin-bottom: 0.75rem;">
+          <span class="pulse-dot" style="background: var(--accent-green);"></span>
+          <span>Official Incident Crisis Mitigation Engine</span>
+        </div>
+        <h2 style="font-size: 1.85rem; color: #fff; font-weight: 900; margin-bottom: 0.5rem; font-family: var(--font-display);">
+          Cyber Fraud Victim Recovery & Legal FIR Dossier
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+          Scam hua to ab kya kare? Generate your immediate <strong>60-Minute Emergency Recovery Plan</strong>, official <strong>Police FIR Complaint Application</strong> (cites IT Act Sec 66C/66D & IPC/BNS), and <strong>RBI-Compliant Bank Chargeback Letter</strong> within seconds.
+        </p>
+      </div>
+
+      <div style="text-align: right; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--risk-high-border); padding: 0.85rem 1.25rem; border-radius: var(--radius-md);">
+        <div style="font-size: 0.72rem; color: var(--risk-high); font-weight: 700; text-transform: uppercase;">Golden Hour Helpline</div>
+        <div style="font-size: 1.5rem; font-weight: 900; color: #fff; font-family: var(--font-mono);">Dial 1930</div>
+        <div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 2px;">National Cyber Crime Portal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incident Details Form Card -->
+  <div class="cyber-card" id="firFormCard">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon" style="background: rgba(0, 229, 255, 0.12); color: var(--accent-cyan);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <div>
+          <div class="card-title">Incident Particulars</div>
+          <div class="card-subtitle">Fill in details or click a preset to generate the complete legal and banking dossier</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="samples-wrapper" style="margin-bottom: 1.5rem;">
+      <span class="samples-label">⚡ Quick Incident Presets:</span>
+      <button type="button" class="sample-pill" onclick="loadFirPreset('electricity')">⚡ Electricity Bill ₹48,500 Debit</button>
+      <button type="button" class="sample-pill" onclick="loadFirPreset('digital_arrest')">🚨 CBI Digital Arrest ₹2,50,000</button>
+      <button type="button" class="sample-pill" onclick="loadFirPreset('upi_trap')">📲 UPI 'Scan to Receive' ₹15,000</button>
+      <button type="button" class="sample-pill" onclick="loadFirPreset('wfh_job')">💼 Telegram WFH Task ₹85,000</button>
+      <button type="button" class="sample-pill" onclick="loadFirPreset('sbi_kyc')">🏦 Fake SBI KYC APK ₹32,000</button>
+    </div>
+
+    <form id="incidentForm" onsubmit="handleGenerateDossier(event)">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+        
+        <div class="form-group">
+          <label class="form-label" for="victimName">Victim Full Name:</label>
+          <input type="text" id="victimName" class="form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="victimPhone">Registered Mobile Number:</label>
+          <input type="text" id="victimPhone" class="form-input" placeholder="e.g. +91 98765 43210" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="victimCity">City & State:</label>
+          <input type="text" id="victimCity" class="form-input" placeholder="e.g. Jaipur, Rajasthan" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="bankName">Victim's Bank:</label>
+          <select id="bankName" class="form-select">
+            <option value="sbi">State Bank of India (SBI)</option>
+            <option value="hdfc">HDFC Bank</option>
+            <option value="icici">ICICI Bank</option>
+            <option value="axis">Axis Bank</option>
+            <option value="pnb">Punjab National Bank (PNB)</option>
+            <option value="paytm">Paytm Payments Bank</option>
+            <option value="general">Other Commercial Bank</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="lossAmount">Total Stolen Amount (₹):</label>
+          <input type="number" id="lossAmount" class="form-input" placeholder="e.g. 25000" min="0" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="txId">Transaction ID / UTR / UPI Ref:</label>
+          <input type="text" id="txId" class="form-input" placeholder="e.g. 423871928374 or UPI/4029384" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="scamType">Scam Category / Modus Operandi:</label>
+          <input type="text" id="scamType" class="form-input" value="{{ prefill_type or 'UPI Financial Fraud' }}" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="suspectInfo">Suspect Phone / UPI ID / Website:</label>
+          <input type="text" id="suspectInfo" class="form-input" value="{{ prefill_suspect or '' }}" placeholder="e.g. +91 91234 56789 or officer@ybl" required>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="incidentDesc">Detailed Incident Description (What happened step-by-step):</label>
+        <textarea id="incidentDesc" class="form-textarea" rows="3" placeholder="Explain how the scammer contacted you, what instructions they gave, and when the funds debited..." required>{{ prefill_desc or '' }}</textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="resetFirForm()">Clear Form</button>
+        <button type="submit" id="btnGenDossier" class="btn btn-primary glow-btn" style="padding: 0.85rem 2rem; font-size: 1.05rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          <span id="btnGenText">Generate Legal FIR & Recovery Dossier</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Generated Dossier Output Section (Hidden initially) -->
+  <div id="dossierOutput" style="display: none; flex-direction: column; gap: 1.75rem;">
+    
+    <!-- Navigation Tabs for Generated Documents -->
+    <div class="scan-type-toggle" style="background: rgba(13, 22, 42, 0.8); padding: 0.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+      <button type="button" class="type-pill active" id="tabBtnPlan" onclick="switchDossierTab('plan')">
+        🚨 1. What to Do Now (Action Plan)
+      </button>
+      <button type="button" class="type-pill" id="tabBtnFir" onclick="switchDossierTab('fir')">
+        🚔 2. Police FIR Application
+      </button>
+      <button type="button" class="type-pill" id="tabBtnBank" onclick="switchDossierTab('bank')">
+        🏦 3. Bank Dispute & Chargeback Letter
+      </button>
+      <button type="button" class="type-pill" id="tabBtnPortal" onclick="switchDossierTab('portal')">
+        📋 4. cybercrime.gov.in Prompt
+      </button>
+    </div>
+
+    <!-- TAB 1: What to Do (Immediate Action Plan) -->
+    <div id="tabContentPlan" class="cyber-card" style="border-left: 4px solid var(--accent-green);">
+      <div class="cyber-card-header">
+        <div>
+          <div class="card-title" style="color: var(--accent-green);">Step-by-Step Incident Response Protocol ("Kya-Kya Karna Chahiye")</div>
+          <div class="card-subtitle">Execute these critical emergency actions immediately to minimize damage and trigger fund freeze</div>
+        </div>
+      </div>
+      <div id="actionPlanContainer" style="display: flex; flex-direction: column; gap: 1.25rem;"></div>
+    </div>
+
+    <!-- TAB 2: Police FIR Complaint Letter -->
+    <div id="tabContentFir" class="cyber-card" style="display: none;">
+      <div class="cyber-card-header">
+        <div>
+          <div class="card-title">Official Police FIR Complaint Letter</div>
+          <div class="card-subtitle">Ready-to-submit legal document citing Information Technology Act 2000 & IPC / BNS</div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary btn-sm" onclick="copyDossierText('policeFirText', 'Police FIR Application copied!')">📋 Copy Letter</button>
+          <button class="btn btn-secondary btn-sm" onclick="downloadTextAsFile('Police_FIR_Complaint.txt', 'policeFirText')">💾 Download .txt</button>
+        </div>
+      </div>
+      <pre id="policeFirText" style="background: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.85rem; color: #cbd5e1; white-space: pre-wrap; line-height: 1.6; max-height: 500px; overflow-y: auto; border: 1px solid var(--border-color);"></pre>
+    </div>
+
+    <!-- TAB 3: Bank Dispute & Chargeback Letter -->
+    <div id="tabContentBank" class="cyber-card" style="display: none;">
+      <div class="cyber-card-header">
+        <div>
+          <div class="card-title">Bank Dispute & Chargeback Representation</div>
+          <div class="card-subtitle">Formatted under RBI Circular DBR.No.Leg.BC.78/09.07.005/2017-18 for Zero/Limited Customer Liability</div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary btn-sm" onclick="copyDossierText('bankDisputeText', 'Bank Dispute Letter copied!')">📋 Copy Letter</button>
+          <button class="btn btn-secondary btn-sm" onclick="downloadTextAsFile('Bank_Dispute_Claim.txt', 'bankDisputeText')">💾 Download .txt</button>
+        </div>
+      </div>
+      <pre id="bankDisputeText" style="background: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.85rem; color: #cbd5e1; white-space: pre-wrap; line-height: 1.6; max-height: 500px; overflow-y: auto; border: 1px solid var(--border-color);"></pre>
+    </div>
+
+    <!-- TAB 4: National Cyber Crime Portal Prompt -->
+    <div id="tabContentPortal" class="cyber-card" style="display: none;">
+      <div class="cyber-card-header">
+        <div>
+          <div class="card-title">cybercrime.gov.in Incident Summary Prompt</div>
+          <div class="card-subtitle">Pre-structured summary ready to paste directly into the National Cyber Crime Reporting Portal</div>
+        </div>
+        <div>
+          <button class="btn btn-primary btn-sm glow-btn" onclick="copyDossierText('portalPromptText', 'Portal summary copied! Now open cybercrime.gov.in')">📋 Copy Summary</button>
+          <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Open cybercrime.gov.in ↗</a>
+        </div>
+      </div>
+      <div id="portalPromptText" style="background: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.9rem; color: #38bdf8; line-height: 1.7; border: 1px solid var(--border-color);"></div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const FIR_PRESETS = {
+  electricity: {
+    victimName: "Amitabh Verma",
+    victimPhone: "+91 98110 23456",
+    victimCity: "Jaipur, Rajasthan",
+    bankName: "sbi",
+    lossAmount: 48500,
+    txId: "420918237198",
+    scamType: "Electricity Power Disconnection & Fake APK Scam",
+    suspectInfo: "+91 88203 91823 (Fake Electricity Officer)",
+    desc: "Received an urgent SMS claiming my home electricity will be disconnected tonight at 9:30 PM due to an unpaid bill. The sender instructed me to call officer number and download an electricity verification app (Electricity_Update.apk). Upon installing, my phone went blank for 2 minutes and Rs. 48,500 was debited via NetBanking without my sharing OTP."
+  },
+  digital_arrest: {
+    victimName: "Pooja Malhotra",
+    victimPhone: "+91 99201 87654",
+    victimCity: "Delhi NCR",
+    bankName: "hdfc",
+    lossAmount: 250000,
+    txId: "HDFC0029384719",
+    scamType: "CBI & Cyber Crime Digital Arrest Video Call Extortion",
+    suspectInfo: "Skype: cbi.investigation.hq@outlook.com / Phone: +91 90123 45678",
+    desc: "Received a phone call claiming a FedEx parcel in my name was seized at Mumbai Customs containing narcotics and fake passports. The caller transferred me to a person posing as a CBI Officer on Skype video call in full police uniform. They claimed I was under 'Digital Arrest' and coerced me to transfer Rs. 2,50,000 to an alleged 'RBI Verification Account' to clear my name."
+  },
+  upi_trap: {
+    victimName: "Vikram Sen",
+    victimPhone: "+91 94140 12389",
+    victimCity: "Bengaluru, Karnataka",
+    bankName: "icici",
+    lossAmount: 15000,
+    txId: "UPI/412093849182",
+    scamType: "OLX / UPI Reverse 'Scan QR to Receive Money' Trap",
+    suspectInfo: "army.officer.rahul@okaxis / +91 77123 99881",
+    desc: "Listed a sofa for sale on OLX. Buyer claimed to be an Army Officer getting transferred and agreed to buy without negotiation. Sent a QR code claiming 'Scan this code to receive advance token money of Rs. 15,000'. Upon scanning and entering my UPI PIN, Rs. 15,000 was debited from my account instead of being credited."
+  },
+  wfh_job: {
+    victimName: "Ananya Saxena",
+    victimPhone: "+91 97182 34567",
+    victimCity: "Mumbai, Maharashtra",
+    bankName: "axis",
+    lossAmount: 85000,
+    txId: "AXIS9023847192",
+    scamType: "Telegram Part-Time Work From Home Rating / Crypto Task Scam",
+    suspectInfo: "Telegram: @HR_Recruiter_Maya / Group: VIP Task Level 4",
+    desc: "Offered a part-time job liking YouTube videos and rating Google Maps hotels for Rs. 50 per task. After initial payouts of Rs. 300, I was added to a VIP Telegram group and persuaded to deposit Rs. 85,000 into a 'crypto merchant account' for premium returns. When I requested withdrawal, they demanded another Rs. 50,000 tax clearance."
+  },
+  sbi_kyc: {
+    victimName: "Rameshwar Joshi",
+    victimPhone: "+91 98290 65432",
+    victimCity: "Lucknow, Uttar Pradesh",
+    bankName: "sbi",
+    lossAmount: 32000,
+    txId: "SBI4928173928",
+    scamType: "SBI Account Suspension & Fake KYC Phishing Portal",
+    suspectInfo: "http://sbi-kyc-update-portal.xyz/login.php",
+    desc: "Received SMS: 'Dear customer, your SBI YONO account is suspended today due to expired KYC. Click link to update instantly'. The link opened a replica of SBI login page where I entered username and password. Immediately after, an unauthorized IMPS transfer of Rs. 32,000 occurred."
+  }
+};
+
+function loadFirPreset(key) {
+  const p = FIR_PRESETS[key];
+  if (!p) return;
+  document.getElementById('victimName').value = p.victimName;
+  document.getElementById('victimPhone').value = p.victimPhone;
+  document.getElementById('victimCity').value = p.victimCity;
+  document.getElementById('bankName').value = p.bankName;
+  document.getElementById('lossAmount').value = p.lossAmount;
+  document.getElementById('txId').value = p.txId;
+  document.getElementById('scamType').value = p.scamType;
+  document.getElementById('suspectInfo').value = p.suspectInfo;
+  document.getElementById('incidentDesc').value = p.desc;
+  showToast(`Loaded preset scenario: ${p.scamType}`, "info");
+}
+
+function handleGenerateDossier(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnGenDossier');
+  const btnText = document.getElementById('btnGenText');
+  btn.disabled = true;
+  btnText.textContent = "Synthesizing Legal & Bank Dossier...";
+
+  if (window.trigger3DLaserSweep) window.trigger3DLaserSweep('firFormCard');
+
+  const payload = {
+    victim_name: document.getElementById('victimName').value.trim(),
+    victim_phone: document.getElementById('victimPhone').value.trim(),
+    victim_city: document.getElementById('victimCity').value.trim(),
+    bank_name: document.getElementById('bankName').value,
+    loss_amount: document.getElementById('lossAmount').value.trim(),
+    transaction_id: document.getElementById('txId').value.trim(),
+    scam_type: document.getElementById('scamType').value.trim(),
+    suspect_info: document.getElementById('suspectInfo').value.trim(),
+    description: document.getElementById('incidentDesc').value.trim()
+  };
+
+  fetch('/api/incident/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    btn.disabled = false;
+    btnText.textContent = "Generate Legal FIR & Recovery Dossier";
+
+    if (!data.success || !data.dossier) {
+      showToast(data.error || "Failed to generate dossier", "error");
+      return;
+    }
+
+    renderDossier(data.dossier);
+    if (window.CyberAudio) window.CyberAudio.playAlert(false);
+    showToast("Incident Recovery Dossier generated successfully!", "success");
+  })
+  .catch(err => {
+    btn.disabled = false;
+    btnText.textContent = "Generate Legal FIR & Recovery Dossier";
+    showToast("Network error generating dossier", "error");
+  });
+}
+
+function renderDossier(d) {
+  // Render Action Plan
+  const planContainer = document.getElementById('actionPlanContainer');
+  planContainer.innerHTML = '';
+  (d.action_plan || []).forEach(phase => {
+    const card = document.createElement('div');
+    card.style.background = 'rgba(255, 255, 255, 0.03)';
+    card.style.padding = '1rem 1.25rem';
+    card.style.borderRadius = 'var(--radius-md)';
+    card.style.border = '1px solid var(--border-color)';
+    
+    let stepsHtml = phase.steps.map(s => `<li style="margin-bottom: 0.5rem; line-height: 1.5; color: var(--text-main);">${escapeHtml(s)}</li>`).join('');
+    card.innerHTML = `
+      <h4 style="color: var(--accent-cyan); font-size: 1rem; margin-bottom: 0.6rem; font-weight: 700;">${escapeHtml(phase.phase)}</h4>
+      <ul style="padding-left: 1.2rem; font-size: 0.88rem;">${stepsHtml}</ul>
+    `;
+    planContainer.appendChild(card);
+  });
+
+  // Render Police FIR
+  document.getElementById('policeFirText').textContent = d.police_fir;
+
+  // Render Bank Dispute
+  document.getElementById('bankDisputeText').textContent = d.bank_dispute;
+
+  // Render Portal Prompt
+  document.getElementById('portalPromptText').textContent = d.portal_prompt;
+
+  // Show Output Section & Scroll
+  const out = document.getElementById('dossierOutput');
+  out.style.display = 'flex';
+  out.scrollIntoView({ behavior: 'smooth' });
+}
+
+function switchDossierTab(tab) {
+  const tabs = ['plan', 'fir', 'bank', 'portal'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`tabBtn${capitalize(t)}`);
+    const content = document.getElementById(`tabContent${capitalize(t)}`);
+    if (t === tab) {
+      if (btn) btn.classList.add('active');
+      if (content) content.style.display = 'block';
+    } else {
+      if (btn) btn.classList.remove('active');
+      if (content) content.style.display = 'none';
+    }
+  });
+}
+
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function copyDossierText(elemId, successMsg) {
+  const elem = document.getElementById(elemId);
+  if (!elem) return;
+  copyToClipboard(elem.textContent, successMsg);
+}
+
+function downloadTextAsFile(filename, elemId) {
+  const elem = document.getElementById(elemId);
+  if (!elem) return;
+  const blob = new Blob([elem.textContent], { type: 'text/plain;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast(`Downloaded ${filename}`, "success");
+}
+
+function resetFirForm() {
+  document.getElementById('incidentForm').reset();
+  document.getElementById('dossierOutput').style.display = 'none';
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+</script>
+{% endblock %}

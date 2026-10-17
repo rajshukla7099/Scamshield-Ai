@@ -15,6 +15,9 @@ from detection.scanner import (
     OFFICIAL_BRANDS,
     SAMPLE_TEST_CASES
 )
+from detection.deepfake import DeepfakeDetector
+from detection.threat_radar import ThreatRadar
+from detection.incident_dossier import IncidentDossierGenerator
 
 __all__ = [
     "URLScanner",
@@ -26,5 +29,8 @@ __all__ = [
     "HIGH_RISK_TLDS",
     "KNOWN_SHORTENERS",
     "OFFICIAL_BRANDS",
-    "SAMPLE_TEST_CASES"
+    "SAMPLE_TEST_CASES",
+    "DeepfakeDetector",
+    "ThreatRadar",
+    "IncidentDossierGenerator"
 ]

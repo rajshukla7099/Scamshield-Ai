@@ -10,6 +10,9 @@ from database.db import (
     get_quizzes, mask_sensitive_info
 )
 from detection.scanner import URLScanner, MessageScanner, AIExplainer, detect_scam, SAMPLE_TEST_CASES
+from detection.deepfake import DeepfakeDetector
+from detection.threat_radar import ThreatRadar
+from detection.incident_dossier import IncidentDossierGenerator
 from seed_data import seed_database
 
 app = Flask(__name__)
@@ -97,10 +100,68 @@ def about():
     """About ScamShield AI, Architecture & Legal Disclosures."""
     return render_template("about.html")
 
+@app.route("/deepfake-checker")
+def deepfake_checker():
+    """Deepfake & AI Impersonation Checker Page."""
+    return render_template("deepfake.html")
+
+@app.route("/threat-radar")
+def threat_radar():
+    """Advanced Cyber Threat & Attack Payload Radar."""
+    return render_template("threat_radar.html")
+
+@app.route("/fir-generator")
+def fir_generator():
+    """AI Cyber Incident FIR & Crisis Recovery Dossier Generator."""
+    prefill_type = request.args.get("type", "")
+    prefill_suspect = request.args.get("suspect", "")
+    prefill_desc = request.args.get("desc", "")
+    return render_template("fir_generator.html", 
+                           prefill_type=prefill_type, 
+                           prefill_suspect=prefill_suspect, 
+                           prefill_desc=prefill_desc)
+
 
 # =====================================================================
 # JSON REST API ENDPOINTS
 # =====================================================================
+
+@app.route("/api/scan/deepfake", methods=["POST"])
+def api_scan_deepfake():
+    """Analyzes voice cloning, digital arrest, and video impersonation pretexts."""
+    data = request.get_json(silent=True) or {}
+    text = (data.get("text") or data.get("content") or "").strip()
+    media_type = data.get("media_type") or "general"
+    if not text:
+        return jsonify({"success": False, "error": "Transcript, message, or scenario text is required."}), 400
+    if len(text) > 10000:
+        return jsonify({"success": False, "error": "Input exceeds 10,000 characters."}), 400
+
+    result = DeepfakeDetector.analyze(text, media_type)
+    return jsonify({"success": True, "result": result})
+
+@app.route("/api/scan/payload", methods=["POST"])
+def api_scan_payload():
+    """Inspects SQLi, XSS, Malware APKs, and Network Anomaly indicators."""
+    data = request.get_json(silent=True) or {}
+    payload = (data.get("payload") or data.get("content") or "").strip()
+    if not payload:
+        return jsonify({"success": False, "error": "Input string or attack payload is required."}), 400
+    if len(payload) > 10000:
+        return jsonify({"success": False, "error": "Input exceeds 10,000 characters."}), 400
+
+    result = ThreatRadar.analyze_payload(payload)
+    return jsonify({"success": True, "result": result})
+
+@app.route("/api/incident/generate", methods=["POST"])
+def api_incident_generate():
+    """Generates Police FIR complaint, Bank Dispute application, and recovery plan."""
+    data = request.get_json(silent=True) or {}
+    if not data:
+        return jsonify({"success": False, "error": "Incident details required."}), 400
+
+    dossier = IncidentDossierGenerator.generate_dossier(data)
+    return jsonify({"success": True, "dossier": dossier})
 
 @app.route("/api/scan", methods=["POST"])
 def api_scan():

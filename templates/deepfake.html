@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}Deepfake & AI Impersonation Checker — ScamShield AI{% endblock %}
+{% block page_title %}Deepfake & AI Voice/Video Impersonation Forensic Radar{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 2rem; max-width: 1000px; margin: 0 auto;">
+
+  <!-- Hero Header Card -->
+  <div class="cyber-card" style="background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent 70%), var(--bg-card); border-color: rgba(139, 92, 246, 0.35);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+      <div style="max-width: 720px;">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.75rem; color: var(--accent-purple); font-weight: 700; margin-bottom: 0.75rem;">
+          <span class="pulse-dot" style="background: var(--accent-purple);"></span>
+          <span>Synthetic Media & Impersonation Radar Active</span>
+        </div>
+        <h2 style="font-size: 1.85rem; color: #fff; font-weight: 900; margin-bottom: 0.5rem; font-family: var(--font-display);">
+          Deepfake & AI Impersonation Checker
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+          Detect synthetic voice cloning calls, Skype/WhatsApp fake police <strong>"Digital Arrest"</strong> threats, executive whaling scams, and celebrity investment deepfakes with instant forensic evaluation.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem;">
+        <span class="badge-risk low" style="border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.1); color: #c4b5fd;">
+          ● 100% Offline Rule Engine
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deepfake Analyzer Card -->
+  <div class="cyber-card" id="deepfakeCard">
+    <div class="cyber-card-header">
+      <div class="card-title-group">
+        <div class="card-icon" style="background: rgba(139, 92, 246, 0.12); color: var(--accent-purple);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+        </div>
+        <div>
+          <div class="card-title">Inspect Call Scenario or Transcript</div>
+          <div class="card-subtitle">Paste what the caller said, video scenario notes, or suspicious voice message context</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Scenario Presets -->
+    <div class="samples-wrapper" style="margin-bottom: 1.25rem;">
+      <span class="samples-label">⚡ Test Scenarios:</span>
+      <button type="button" class="sample-pill" onclick="loadDeepfakePreset('digital_arrest')">🚨 CBI Digital Arrest (Skype Video)</button>
+      <button type="button" class="sample-pill" onclick="loadDeepfakePreset('voice_cloning')">📞 AI Cloned Son Accident Call</button>
+      <button type="button" class="sample-pill" onclick="loadDeepfakePreset('ceo_fraud')">💼 WhatsApp CEO Apple Gift Card</button>
+      <button type="button" class="sample-pill" onclick="loadDeepfakePreset('celebrity_crypto')">📈 Ambani Deepfake Trading</button>
+      <button type="button" class="sample-pill" onclick="loadDeepfakePreset('safe_call')">✅ Normal Bank Manager Call</button>
+    </div>
+
+    <form id="deepfakeForm" onsubmit="handleDeepfakeScan(event)">
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label class="form-label" for="dfInputText">Paste conversation details or call transcript:</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <label style="font-size: 0.75rem; color: var(--text-dim);">Media Type:</label>
+            <select id="dfMediaType" class="form-select" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; width: auto;">
+              <option value="general">Auto / General</option>
+              <option value="video">Video Call (WhatsApp / Skype)</option>
+              <option value="voice">Audio / Voice Call</option>
+            </select>
+          </div>
+        </div>
+        <textarea
+          id="dfInputText"
+          class="form-textarea"
+          rows="4"
+          placeholder="e.g. Caller claimed to be Inspector Sharma from Mumbai Cyber Crime Branch on Skype video call in police uniform. He said a FedEx courier with MDMA was seized and I am under digital arrest until I transfer funds to RBI verification account..."
+          required
+        ></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="clearDeepfakeInput()">Clear</button>
+        <button type="submit" id="btnDfScan" class="btn btn-primary glow-btn" style="padding: 0.85rem 2.25rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span id="btnDfText">Analyze Impersonation</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Results Display -->
+    <div id="dfResultsCard" style="display: none; margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-dim); font-weight: 700;">Impersonation Assessment</span>
+          <h3 style="font-size: 1.4rem; color: #fff; font-weight: 800;" id="dfCategory">Category</h3>
+        </div>
+        <div>
+          <span id="dfRiskBadge" class="badge-risk low">Low Risk</span>
+        </div>
+      </div>
+
+      <!-- Risk Meter Gauge -->
+      <div class="risk-meter-container" style="background: rgba(0,0,0,0.3); margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%;">
+          <div class="risk-score-display" id="dfScore" style="font-size: 3rem; font-weight: 900;">0</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem;">
+              Calculated Impersonation Threat Probability
+            </div>
+            <div class="risk-scale-bar" style="height: 12px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden;">
+              <div id="dfScaleFill" class="risk-scale-fill low" style="width: 0%; height: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detected Indicators -->
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-size: 1rem; color: #fff; font-weight: 700; margin-bottom: 0.6rem;">Matched Behavioral & Deception Indicators</h4>
+        <div class="indicators-list" id="dfIndicatorsList"></div>
+      </div>
+
+      <!-- Forensic Checklist -->
+      <div id="dfForensicBox" style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #c4b5fd; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;">
+          🔍 Media Forensics Checklist (What to Verify)
+        </h4>
+        <ul id="dfForensicList" style="padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-main); display: flex; flex-direction: column; gap: 0.4rem;"></ul>
+      </div>
+
+      <!-- Actionable Countermeasures -->
+      <div class="recommendations-box" style="margin-bottom: 1.5rem;">
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.6rem;">
+          🛡️ Recommended Emergency Countermeasures
+        </h4>
+        <ul class="recommendations-list" id="dfRecommendationsList"></ul>
+      </div>
+
+      <!-- Quick Action: File FIR Button -->
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+        <button type="button" class="btn btn-primary glow-btn" onclick="transferToFir()">
+          🚨 Generate Police FIR & Bank Dispute Dossier ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const DF_PRESETS = {
+  digital_arrest: {
+    text: "Received Skype video call from an officer claiming to be from CBI Headquarters New Delhi. The man was in full police uniform sitting in a room with CBI logos. He stated my Aadhaar number was linked to a money laundering syndicate with 16 fake bank accounts. He showed an arrest warrant signed by the Chief Justice and ordered me into 'Digital Arrest', stating I cannot leave the room or disconnect the video call. He demanded I transfer my fixed deposit of Rs. 4,00,000 to an RBI clearing account.",
+    type: "video"
+  },
+  voice_cloning: {
+    text: "Received call from an unknown number. The voice sounded exactly like my 19-year-old son studying in Pune. He was crying and coughing, saying 'Dad please help, my friend had a car accident and the police has detained me at the station. They need Rs. 50,000 right now for hospital bail or they will file criminal charges. Don't call mom, please transfer immediately to this UPI id'. When I asked why his voice sounded slightly robotic, he said his throat was hurt from the airbag.",
+    type: "voice"
+  },
+  ceo_fraud: {
+    text: "WhatsApp message from an unknown number with our CEO's profile picture: 'Hi, I am in an urgent executive board meeting and cannot take voice calls. We have an emergency client presentation in 30 minutes. Please purchase 10 Apple gift cards of Rs. 10,000 each and email the voucher redemption codes to client-support@fastservice.top. Keep this confidential, I will authorize reimbursement when I leave the meeting'.",
+    type: "general"
+  },
+  celebrity_crypto: {
+    text: "Watched a viral video on social media showing Mukesh Ambani being interviewed on a TV news channel. He claimed 'The RBI has approved our automated AI quantum trading algorithm. Anyone can start with just Rs. 21,000 and receive guaranteed returns of Rs. 1,50,000 every week. Register on quantum-trade-india.sbs now'.",
+    type: "video"
+  },
+  safe_call: {
+    text: "Received phone call from my local SBI bank branch asking if I would like to renew my annual home locker agreement before March 31. They gave me the branch address and told me to visit the branch in person with my original passbook.",
+    type: "voice"
+  }
+};
+
+function loadDeepfakePreset(key) {
+  const p = DF_PRESETS[key];
+  if (!p) return;
+  document.getElementById('dfInputText').value = p.text;
+  document.getElementById('dfMediaType').value = p.type;
+  showToast("Loaded preset scenario", "info");
+}
+
+function clearDeepfakeInput() {
+  document.getElementById('dfInputText').value = '';
+  document.getElementById('dfResultsCard').style.display = 'none';
+}
+
+function handleDeepfakeScan(e) {
+  e.preventDefault();
+  const text = document.getElementById('dfInputText').value.trim();
+  const mediaType = document.getElementById('dfMediaType').value;
+
+  if (!text) {
+    showToast("Please enter scenario text to inspect", "error");
+    return;
+  }
+
+  const btn = document.getElementById('btnDfScan');
+  const btnText = document.getElementById('btnDfText');
+  btn.disabled = true;
+  btnText.textContent = "Analyzing Forensic Signatures...";
+
+  if (window.trigger3DLaserSweep) window.trigger3DLaserSweep('deepfakeCard');
+
+  fetch('/api/scan/deepfake', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: text, media_type: mediaType })
+  })
+  .then(res => res.json())
+  .then(data => {
+    btn.disabled = false;
+    btnText.textContent = "Analyze Impersonation";
+
+    if (!data.success || !data.result) {
+      showToast(data.error || "Analysis failed", "error");
+      return;
+    }
+
+    renderDfResults(data.result);
+    if (window.CyberAudio) window.CyberAudio.playAlert(data.result.risk_level === 'High');
+    showToast("Forensic analysis completed!", "success");
+  })
+  .catch(err => {
+    btn.disabled = false;
+    btnText.textContent = "Analyze Impersonation";
+    showToast("Error connecting to detection engine", "error");
+  });
+}
+
+function renderDfResults(res) {
+  const card = document.getElementById('dfResultsCard');
+  card.style.display = 'block';
+
+  document.getElementById('dfCategory').textContent = res.impersonation_type;
+  
+  const scoreElem = document.getElementById('dfScore');
+  scoreElem.textContent = res.risk_score;
+  const riskClass = (res.risk_level || 'low').toLowerCase();
+  scoreElem.className = `risk-score-display ${riskClass}`;
+
+  const badge = document.getElementById('dfRiskBadge');
+  badge.textContent = `${res.risk_level} Risk`;
+  badge.className = `badge-risk ${riskClass}`;
+
+  const scaleFill = document.getElementById('dfScaleFill');
+  scaleFill.className = `risk-scale-fill ${riskClass}`;
+  scaleFill.style.width = `${res.risk_score}%`;
+
+  // Indicators
+  const indList = document.getElementById('dfIndicatorsList');
+  indList.innerHTML = '';
+  if (!res.indicators || res.indicators.length === 0) {
+    indList.innerHTML = `<div class="indicator-item low"><div class="indicator-title">Clean / No Deception Markers</div><div class="indicator-desc">Zero synthetic media, digital arrest, or voice extortion patterns matched.</div></div>`;
+  } else {
+    res.indicators.forEach(ind => {
+      const sev = (ind.severity || 'low').toLowerCase();
+      const div = document.createElement('div');
+      div.className = `indicator-item ${sev}`;
+      div.innerHTML = `
+        <div class="indicator-item-header">
+          <span class="indicator-title">${escapeHtml(ind.title)}</span>
+          <span class="badge-risk ${sev}">${escapeHtml(ind.severity)}</span>
+        </div>
+        <p class="indicator-desc">${escapeHtml(ind.desc)}</p>
+      `;
+      indList.appendChild(div);
+    });
+  }
+
+  // Forensics checklist
+  const fBox = document.getElementById('dfForensicBox');
+  const fList = document.getElementById('dfForensicList');
+  fList.innerHTML = '';
+  if (res.forensic_flags && res.forensic_flags.length > 0) {
+    fBox.style.display = 'block';
+    res.forensic_flags.forEach(flag => {
+      const li = document.createElement('li');
+      li.textContent = flag;
+      fList.appendChild(li);
+    });
+  } else {
+    fBox.style.display = 'none';
+  }
+
+  // Recommendations
+  const recList = document.getElementById('dfRecommendationsList');
+  recList.innerHTML = '';
+  (res.recommendations || []).forEach(r => {
+    const li = document.createElement('li');
+    li.textContent = r;
+    recList.appendChild(li);
+  });
+
+  card.scrollIntoView({ behavior: 'smooth' });
+}
+
+function transferToFir() {
+  const cat = document.getElementById('dfCategory').textContent;
+  const desc = document.getElementById('dfInputText').value;
+  window.location.href = `/fir-generator?type=${encodeURIComponent(cat)}&desc=${encodeURIComponent(desc)}`;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+</script>
+{% endblock %}
